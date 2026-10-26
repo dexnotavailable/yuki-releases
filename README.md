@@ -3,8 +3,9 @@
 The public shelf for **YUKI**, a local AI agent for your own PC. Three things live here:
 
 - **Installers.** Each [release](../../releases) carries the Windows installer (`YUKI-Setup-<version>.exe`).
-- **Update manifests.** `latest.yml` (stable) and `beta.yml` (beta) plus the installer's `.blockmap` sit on each
-  release. The app reads them to update itself in small pieces and then asks you to restart.
+- **Update manifests.** `latest.yml` and the installer's `.blockmap` sit on each release. The app reads them to
+  update itself in small pieces and then asks you to restart. Betas are marked as pre-releases; only apps set to the
+  beta channel take them.
 - **The catalogue.** [`catalogue/catalogue.json`](catalogue/catalogue.json) lists the models and skills YUKI can
   download for you, checked against [`catalogue/catalogue.schema.json`](catalogue/catalogue.schema.json).
 
