@@ -22,7 +22,8 @@ and you accept it there. Gated models only download through your own Hugging Fac
 ## Taking something down
 
 If you made something that is listed here and want it gone, [open an issue](../../issues/new) and it comes out of the
-catalogue. That reaches every YUKI right away: the app reads the catalogue from here, so no app update is needed.
+catalogue. No app update is needed: every YUKI that is online picks up the change within a few hours (six at most),
+then stops offering the item and will not start a download of it.
 
 ## Installing
 
