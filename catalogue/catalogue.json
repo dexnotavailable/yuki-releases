@@ -572,40 +572,7 @@
     }
   ],
   "skills": [],
-  "voices": [
-    {
-      "id": "hina",
-      "title": "Hina (Yuki's voice)",
-      "description": "Yuki's voice for Qwen3-TTS: ten short clips, one emotion each (neutral, happy, excited, soft, teasing, pouty, sad), in English and Japanese.",
-      "version": "1.0.0",
-      "url": "https://raw.githubusercontent.com/dexnotavailable/yuki-releases/main/voices/hina-1.0.0.zip",
-      "sha256": "edfd6ab2aff9d39e4e9a8c09c0e51f2218a2b486affff321a2a3f52340eb1a13",
-      "size": 2209806,
-      "models": [
-        "qwen3-tts-1.7b"
-      ],
-      "languages": [
-        "en",
-        "ja"
-      ],
-      "emotions": [
-        "neutral",
-        "happy",
-        "excited",
-        "soft",
-        "teasing",
-        "pouty",
-        "sad"
-      ],
-      "licence": {
-        "id": "hina-voice-clips",
-        "name": "Hina voice clips (made with ElevenLabs)",
-        "url": "https://github.com/dexnotavailable/yuki-releases/blob/main/voices/hina.md",
-        "commercial": "no",
-        "summary": "Where her voice comes from: these ten short clips (English and Japanese, about a minute) were made with ElevenLabs text to speech from the Voice Library voice \"Hina - cute and friendly\", shared there by its creator Shunshun. Yuki's bigger voice (Qwen3-TTS) learns from them on your PC, so she sounds like Hina; nothing is sent anywhere. The voice is not ours to license: use it for yourself with YUKI, and don't sell it or pass it off as a real person. If the creator or ElevenLabs objects, it comes out of the catalogue."
-      }
-    }
-  ],
+  "voices": [],
   "runtimes": [
     {
       "id": "uv",
