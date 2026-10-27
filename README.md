@@ -6,8 +6,10 @@ The public shelf for **YUKI**, a local AI agent for your own PC. Three things li
 - **Update manifests.** `latest.yml` and the installer's `.blockmap` sit on each release. The app reads them to
   update itself in small pieces and then asks you to restart. Betas are marked as pre-releases; only apps set to the
   beta channel take them.
-- **The catalogue.** [`catalogue/catalogue.json`](catalogue/catalogue.json) lists the models and skills YUKI can
-  download for you, checked against [`catalogue/catalogue.schema.json`](catalogue/catalogue.schema.json).
+- **The catalogue.** [`catalogue/catalogue.json`](catalogue/catalogue.json) lists the models, skills and voices YUKI
+  can download for you, checked against [`catalogue/catalogue.schema.json`](catalogue/catalogue.schema.json).
+- **Yuki's voice.** The reference clips her bigger voice learns from (`voices/hina-1.0.0.zip`, ten short WAV clips,
+  no model) and [`voices/hina.md`](voices/hina.md), which says where the voice comes from.
 
 ## No weights here, ever
 
