@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-10-27",
   "models": [
     {
       "id": "flash-next",
@@ -48,7 +48,7 @@
           "dest": "Huihui/Qwen3.8-Flash-Next-abliterated-v2-swift-IQ3_XXS/mmproj-Swift-Qwen3.8-Flash-Next-BF16.gguf"
         }
       ],
-      "notes": "The big brain: wants a 24 GB card and 64 GB of RAM. It needs YUKI's own brain engine (Strata), which YUKI cannot set up for you yet."
+      "notes": "The big brain: wants a 24 GB card and 64 GB of RAM. It runs on Strata, which YUKI sets up for you (that setup is new on a fresh PC, so YUKI says so); the smaller brain lands first so you can chat while it does."
     },
     {
       "id": "qwen3.8-27b-q4km",
@@ -62,6 +62,11 @@
       "minTier": "A",
       "vramGb": 20,
       "ramGb": 3,
+      "rank": 27,
+      "tags": [
+        "personal",
+        "uncensored"
+      ],
       "licence": {
         "id": "apache-2.0",
         "name": "Apache 2.0",
@@ -87,7 +92,7 @@
           "dest": "Qwen3.8-27B-Abliterated-Q4_K_M/mmproj-model-bf16.gguf"
         }
       ],
-      "notes": "The smaller brain: runs on a 20 GB card and can look at pictures. YUKI picks it when the big brain does not fit."
+      "notes": "The smaller brain: a dense 27B, all of it on the graphics card beside the desktop (a 24 GB card), and it can look at pictures. YUKI picks it when the big brain does not fit."
     },
     {
       "id": "qwen3.8-27b-q3k",
@@ -101,6 +106,11 @@
       "minTier": "A",
       "vramGb": 18,
       "ramGb": 3,
+      "rank": 27,
+      "tags": [
+        "personal",
+        "uncensored"
+      ],
       "licence": {
         "id": "apache-2.0",
         "name": "Apache 2.0",
@@ -127,6 +137,96 @@
         }
       ],
       "notes": "The same smaller brain, squeezed a little more for when the graphics card is short on room."
+    },
+    {
+      "id": "huihui-qwen3-30b-a3b-q4km",
+      "title": "Huihui Qwen3 30B-A3B abliterated (Q4_K_M)",
+      "kind": "llm",
+      "roles": [
+        "brain.small"
+      ],
+      "registryId": "huihui-qwen3-30b-a3b",
+      "runtime": "llama.cpp",
+      "minTier": "D",
+      "vramGb": 20,
+      "vramMinGb": 2.5,
+      "ramGb": 18,
+      "rank": 10,
+      "moe": {
+        "layers": 48,
+        "expertBytes": 17553162240,
+        "gpuBytes": 822523904,
+        "embdBytes": 175030272,
+        "kvBytesPerToken": 52224,
+        "contextLength": 262144
+      },
+      "tags": [
+        "personal",
+        "uncensored"
+      ],
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is huihui-ai's abliterated build of Qwen3 30B-A3B Instruct 2507, quantised by mradermacher."
+      },
+      "files": [
+        {
+          "repo": "mradermacher/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated-i1-GGUF",
+          "file": "Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-Q4_K_M.gguf",
+          "revision": "55e4fd1638fc3b146ab3ca562aed42ce67e65d27",
+          "sha256": "c3ea5a2f5bd544deac662917ea03e5ae645baf1ef59f6076dbf73b8e4b8355b0",
+          "size": 18556687296,
+          "dest": "Huihui-Qwen3-30B-A3B-abliterated/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-Q4_K_M.gguf"
+        }
+      ],
+      "notes": "The small brain at fuller quality, for 8 to 16 GB cards with RAM to spare. A mixture of experts: about 3B of its 30B work on each word, so the experts that do not fit on the card wait in RAM. It reads text only."
+    },
+    {
+      "id": "huihui-qwen3-30b-a3b-iq3xxs",
+      "title": "Huihui Qwen3 30B-A3B abliterated (IQ3_XXS)",
+      "kind": "llm",
+      "roles": [
+        "brain.small"
+      ],
+      "registryId": "huihui-qwen3-30b-a3b",
+      "runtime": "llama.cpp",
+      "minTier": "D",
+      "vramGb": 14,
+      "vramMinGb": 2,
+      "ramGb": 11.5,
+      "rank": 10,
+      "moe": {
+        "layers": 48,
+        "expertBytes": 11098128384,
+        "gpuBytes": 611524608,
+        "embdBytes": 133703680,
+        "kvBytesPerToken": 52224,
+        "contextLength": 262144
+      },
+      "tags": [
+        "personal",
+        "uncensored"
+      ],
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is huihui-ai's abliterated build of Qwen3 30B-A3B Instruct 2507, quantised by mradermacher."
+      },
+      "files": [
+        {
+          "repo": "mradermacher/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated-i1-GGUF",
+          "file": "Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-IQ3_XXS.gguf",
+          "revision": "55e4fd1638fc3b146ab3ca562aed42ce67e65d27",
+          "sha256": "2e1f167d6c038ed2b0edc03c9740190a07955a19ea580cd410d4858bfe82c84e",
+          "size": 11849327552,
+          "dest": "Huihui-Qwen3-30B-A3B-abliterated/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-IQ3_XXS.gguf"
+        }
+      ],
+      "notes": "The same small brain squeezed for 6 GB cards with 16 GB of RAM: most of its experts wait in RAM, so close big programs while it thinks. It reads text only."
     },
     {
       "id": "moss-image",
@@ -431,7 +531,199 @@
         }
       ],
       "notes": "Finds what you name in a picture and makes a mask of it, for editing just that part."
+    },
+    {
+      "id": "shieldstral-1.0-3b",
+      "title": "Shieldstral 1.0 3B (dex inference safety check)",
+      "kind": "llm",
+      "roles": [
+        "safety"
+      ],
+      "runtime": "llama.cpp",
+      "minTier": "D",
+      "vramGb": 0,
+      "ramGb": 4,
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://huggingface.co/mistralai/Shieldstral-1.0-3B",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence and notices. A small safety classifier by Mistral AI (GGUF conversion by Abiray)."
+      },
+      "files": [
+        {
+          "repo": "Abiray/Shieldstral-1.0-3B-GGUF",
+          "file": "Shieldstral-1.0-3B-Q4_K_M.gguf",
+          "revision": "45dfb4247226b53cbcfeaa43b735bd0beb9a07c8",
+          "sha256": "c76cb8e102bc9fc78d7568d7ff95db679058022af455000aedd0c9541e9233b3",
+          "size": 2146497312,
+          "dest": "Shieldstral/Shieldstral-1.0-3B-Q4_K_M.gguf"
+        },
+        {
+          "repo": "Abiray/Shieldstral-1.0-3B-GGUF",
+          "file": "mmproj-Shieldstral-1.0-3b-F16.gguf",
+          "revision": "45dfb4247226b53cbcfeaa43b735bd0beb9a07c8",
+          "sha256": "05fa329ee48d41b2b7dbf7a71114a74510cfedb36bff112314f5c3c489be5de6",
+          "size": 840297056,
+          "dest": "Shieldstral/mmproj-Shieldstral-1.0-3b-F16.gguf"
+        }
+      ],
+      "notes": "Only for hosting dex inference: the usage-policy check every host runs on its prompts and generated images, on the CPU (no graphics memory). YUKI on your own PC never uses it on your own work."
     }
   ],
-  "skills": []
+  "skills": [],
+  "voices": [
+    {
+      "id": "hina",
+      "title": "Hina (Yuki's voice)",
+      "description": "Yuki's voice for Qwen3-TTS: ten short clips, one emotion each (neutral, happy, excited, soft, teasing, pouty, sad), in English and Japanese.",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/dexnotavailable/yuki-releases/main/voices/hina-1.0.0.zip",
+      "sha256": "edfd6ab2aff9d39e4e9a8c09c0e51f2218a2b486affff321a2a3f52340eb1a13",
+      "size": 2209806,
+      "models": [
+        "qwen3-tts-1.7b"
+      ],
+      "languages": [
+        "en",
+        "ja"
+      ],
+      "emotions": [
+        "neutral",
+        "happy",
+        "excited",
+        "soft",
+        "teasing",
+        "pouty",
+        "sad"
+      ],
+      "licence": {
+        "id": "hina-voice-clips",
+        "name": "Hina voice clips (made with ElevenLabs)",
+        "url": "https://github.com/dexnotavailable/yuki-releases/blob/main/voices/hina.md",
+        "commercial": "no",
+        "summary": "Where her voice comes from: these ten short clips (English and Japanese, about a minute) were made with ElevenLabs text to speech from the Voice Library voice \"Hina - cute and friendly\", shared there by its creator Shunshun. Yuki's bigger voice (Qwen3-TTS) learns from them on your PC, so she sounds like Hina; nothing is sent anywhere. The voice is not ours to license: use it for yourself with YUKI, and don't sell it or pass it off as a real person. If the creator or ElevenLabs objects, it comes out of the catalogue."
+      }
+    }
+  ],
+  "runtimes": [
+    {
+      "id": "uv",
+      "title": "uv (builds Python environments)",
+      "runtime": "uv",
+      "version": "0.13.5",
+      "minTier": "C",
+      "archives": [
+        {
+          "url": "https://github.com/astral-sh/uv/releases/download/0.13.5/uv-x86_64-pc-windows-msvc.zip",
+          "sha256": "a38b8d1902b7cfbc76b423ba1bb456f623f42064cdc72628b6075b89afd1019a",
+          "size": 15264056
+        }
+      ],
+      "check": "uv.exe",
+      "diskGb": 0.1,
+      "licence": {
+        "id": "apache-2.0-or-mit",
+        "name": "Apache 2.0 or MIT",
+        "url": "https://github.com/astral-sh/uv/blob/main/LICENSE-APACHE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, under either licence, keeping the notice. YUKI uses it only to build the Python environments ComfyUI and Strata run in, inside their own folders."
+      },
+      "notes": "Astral's Python package manager. It makes private Python environments, so nothing is installed into a Python you already have."
+    },
+    {
+      "id": "llama.cpp-cuda",
+      "title": "llama.cpp server (CUDA 12)",
+      "runtime": "llama.cpp",
+      "version": "b11538",
+      "backend": "cuda",
+      "minTier": "D",
+      "minDriver": "551.61",
+      "archives": [
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11538/llama-b11538-bin-win-cuda-12.4-x64.zip",
+          "sha256": "631c1397231497dabcdd1eb21ae43ad235093c22c88cc64f09ac3be67285cd6e",
+          "size": 265219217
+        },
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11538/cudart-llama-bin-win-cuda-12.4-x64.zip",
+          "sha256": "8c79a9b226de4b3cacfd1f83d24f962d0773be79f1e7b75c6af4ded7e32ae1d6",
+          "size": 391443627
+        }
+      ],
+      "check": "llama-server.exe",
+      "diskGb": 2,
+      "licence": {
+        "id": "mit",
+        "name": "MIT",
+        "url": "https://github.com/ggml-org/llama.cpp/blob/master/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the copyright notice. The CUDA runtime files that come with it are NVIDIA's, under NVIDIA's own redistributable licence."
+      },
+      "notes": "Runs the 27B brain and the small brain on your graphics card. The build YUKI is tested with; it needs an NVIDIA driver from 2024 or newer."
+    },
+    {
+      "id": "comfyui",
+      "title": "ComfyUI (pictures, video and music)",
+      "runtime": "comfy",
+      "version": "v0.42.5",
+      "backend": "cuda",
+      "minTier": "C",
+      "minDriver": "580",
+      "needs": [
+        "uv"
+      ],
+      "archives": [
+        {
+          "url": "https://github.com/Comfy-Org/ComfyUI/archive/refs/tags/v0.42.5.zip",
+          "sha256": "49548f32f088aa8ca93f62bd6d2f7ed845e1bcccb9354b1ac84f78ca2172aae3",
+          "size": 13427015,
+          "into": "ComfyUI"
+        }
+      ],
+      "check": "ComfyUI/main.py",
+      "setup": "comfy",
+      "diskGb": 9,
+      "licence": {
+        "id": "gpl-3.0",
+        "name": "GNU GPL 3.0",
+        "url": "https://github.com/Comfy-Org/ComfyUI/blob/master/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too. If you share a changed copy of ComfyUI itself, it has to stay GPL with its source. What you make with it is yours. Setting it up also downloads PyTorch for CUDA and the Python packages ComfyUI lists, each under its own licence."
+      },
+      "notes": "Makes pictures, video and music on your graphics card. YUKI builds its own Python environment for it (PyTorch for CUDA, a few GB), separate from anything else on the PC. That PyTorch is built for CUDA 13, so it needs an NVIDIA driver from the R580 branch (mid-2025) or newer."
+    },
+    {
+      "id": "strata",
+      "title": "Strata (the big brain engine)",
+      "runtime": "strata",
+      "version": "0.1.43",
+      "backend": "cuda",
+      "minTier": "S",
+      "minDriver": "580",
+      "needs": [
+        "uv"
+      ],
+      "archives": [
+        {
+          "url": "https://github.com/Niko1221/Strata/archive/refs/tags/v0.1.43.zip",
+          "sha256": "d52467de6c98f0f2086bf64797dd4c638648d0bb8bd9f0c935c02ca4e2d0fe8e",
+          "size": 21741248,
+          "into": "src"
+        }
+      ],
+      "check": "src/serve/server.py",
+      "setup": "strata",
+      "diskGb": 4,
+      "experimental": true,
+      "licence": {
+        "id": "mit",
+        "name": "MIT",
+        "url": "https://github.com/Niko1221/Strata/blob/main/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the copyright notice. Strata's own setup also downloads its ready-made engine and Python packages (NVIDIA's CUDA libraries among them), each under its own licence."
+      },
+      "notes": "Runs the big brain (Flash-Next) across your graphics card and RAM. YUKI runs Strata's own setup for you; that is new on a fresh PC, so if it stops, the smaller brain keeps working and YUKI says what happened. Its engine is built for CUDA 13: NVIDIA driver R580 or newer."
+    }
+  ]
 }
