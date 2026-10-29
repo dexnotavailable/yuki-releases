@@ -15,7 +15,8 @@
     "skills": { "type": "array", "items": { "$ref": "#/$defs/skill" } },
     "voices": { "description": "Voices for voice models that learn a voice from reference clips (Qwen3-TTS). Optional: apps before it ignore it.", "type": "array", "items": { "$ref": "#/$defs/voice" } },
     "runtimes": { "description": "Optional (apps from before it ignore it): the programs models run on, fetched on demand.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
-    "pipeline": { "description": "Optional: the model pipeline's rules for a model from Hugging Face (which copy, which runtime, which starting settings), over the app's own (packages/engine/src/catalogue/pipeline/rules.ts, which says what each one means). Any of bpw, context, strataArchitectures, hugeB, media, licences; a value that is wrong is ignored.", "type": "object" }
+    "runtimesNext": { "description": "Optional: runtimes only apps from 0.3 read (older apps read `runtimes` alone and never see these). One with the id of a `runtimes` entry stands in for it in those apps (Strata 0.2.7 for 0.1.43); the rest are added. Only an entry an app runs stands in: one whose setup step it does not run, or whose runs it cannot read, is left out, and the entry it would stand in for stays. Put a runtime here when older apps must not install it.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
+    "pipeline": { "description": "Optional: the model pipeline's rules for a model from Hugging Face (which copy, which starting settings), over the app's own (packages/engine/src/catalogue/pipeline/rules.ts, which says what each one means). Any of bpw, context, strataArchitectures (apps before 0.3 only), hugeB, speed, media, licences; a value that is wrong is ignored. Which runtime runs a model is each runtime's own `runs` (docs/build/RUNTIMES-V03.md).", "type": "object" }
   },
   "$defs": {
     "id": {
@@ -71,6 +72,22 @@
         "gpuBytes": { "description": "What never leaves the card: attention, norms, routers, the output head.", "type": "integer", "minimum": 0 },
         "embdBytes": { "description": "The token embeddings (llama.cpp keeps them in RAM).", "type": "integer", "minimum": 0 },
         "kvBytesPerToken": { "description": "KV cache bytes per token of context with a q8_0 cache, over every block with attention.", "type": "integer", "minimum": 0 },
+        "recurrentBytesPerSlot": { "description": "A hybrid model's recurrent state (its linear-attention blocks), bytes per conversation whatever its length. Read by apps from 0.3.", "type": "integer", "minimum": 0 },
+        "contextLength": { "description": "The context it was trained for, in tokens.", "type": "integer", "minimum": 1 }
+      }
+    },
+    "dense": {
+      "description": "A dense brain on llama.cpp: what its GGUF is made of, so apps from 0.3 can split it between the card and RAM where it does not fit on the card (the blocks that fit on the card, the rest in RAM). The pipeline writes it from the file's header. Only for kind llm on runtime llama.cpp, never with moe.",
+      "type": "object",
+      "required": ["layers", "layerBytes", "headBytes", "embdBytes", "kvBytesPerToken"],
+      "additionalProperties": false,
+      "properties": {
+        "layers": { "description": "Transformer blocks (<arch>.block_count).", "type": "integer", "minimum": 1 },
+        "layerBytes": { "description": "Every block's tensors together (blk.N.*).", "type": "integer", "minimum": 1 },
+        "headBytes": { "description": "The output head and its norm (on the card only when every block is).", "type": "integer", "minimum": 0 },
+        "embdBytes": { "description": "The token embeddings (llama.cpp keeps them in RAM).", "type": "integer", "minimum": 0 },
+        "kvBytesPerToken": { "description": "KV cache bytes per token with a q8_0 cache, over the blocks with attention.", "type": "integer", "minimum": 0 },
+        "recurrentBytesPerSlot": { "description": "A hybrid model's recurrent state, bytes per conversation.", "type": "integer", "minimum": 0 },
         "contextLength": { "description": "The context it was trained for, in tokens.", "type": "integer", "minimum": 1 }
       }
     },
@@ -92,7 +109,10 @@
         "gated": { "description": "Needs the user's own Hugging Face login.", "type": "boolean" },
         "rank": { "description": "A brain's place among brains: higher is better, and the highest that fits a PC is the one first run gives it (copies of one model, sharing a registryId, share it). About the size, in billions of parameters, of a dense model as good as it (a dense 27B: 27; Qwen3 30B-A3B: about 10). Without one: 0, the bigger download first.", "type": "number", "minimum": 0 },
         "moe": { "$ref": "#/$defs/moe" },
-        "tags": { "description": "Card tags it starts with in the picker (personal, uncensored...), beside the ones YUKI gives every card.", "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 40 } },
+        "dense": { "$ref": "#/$defs/dense" },
+        "architecture": { "description": "Its GGUF general.architecture (qwen3moe, qwen35, qwen4exp...): which runtime family takes it (a runtime's runs.families). Read by apps from 0.3.", "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,39}$" },
+        "runtimeId": { "description": "The runtime entry that runs it, when its runtime has more than one (the model pipeline writes the one it picked). Without it: the entry of its runtime that takes it on this PC. Read by apps from 0.3.", "$ref": "#/$defs/id" },
+        "tags": { "description": "Card tags it starts with in the picker (personal, fast...), beside the ones YUKI gives every card.", "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 40 } },
         "context": { "description": "The context a conversation starts with on llama.cpp, in tokens (a dense brain's vramGb is sized with it). Without it: 32k for a mixture of experts, 8k for a dense brain.", "type": "integer", "minimum": 1024 },
         "licence": { "$ref": "#/$defs/licence" },
         "files": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/file" } },
@@ -167,11 +187,72 @@
         "needs": { "description": "Runtime ids it is set up with.", "type": "array", "items": { "$ref": "#/$defs/id" } },
         "archives": { "description": "Unpacked in order. Empty only when a setup step does the whole install.", "type": "array", "items": { "$ref": "#/$defs/archive" } },
         "check": { "description": "A file in the runtime's folder that shows it is installed.", "$ref": "#/$defs/relativePath" },
-        "setup": { "description": "What YUKI runs after unpacking: comfy = Python environment, PyTorch and ComfyUI's packages; strata = Strata's own setup.", "enum": ["comfy", "strata", "qwen3-tts"] },
+        "setup": { "description": "What YUKI runs after unpacking: comfy = Python environment, PyTorch and ComfyUI's packages; strata = Strata 0.1's own setup.py; qwen3-tts = its Python environment; strata-terminal = Strata 0.2's Terminal build, set up by its own installer (apps with its adapter only). An app that does not run a step leaves the entry out: a runtime that needs a newer adapter names a new step.", "enum": ["comfy", "strata", "qwen3-tts", "strata-terminal"] },
         "diskGb": { "description": "Disk it takes once set up (archives unpacked plus what setup adds).", "type": "number", "minimum": 0 },
         "licence": { "$ref": "#/$defs/licence" },
         "experimental": { "description": "Its setup has not been proven on a fresh PC: offered, and said so.", "type": "boolean" },
-        "notes": { "type": "string" }
+        "notes": { "type": "string" },
+        "runs": { "$ref": "#/$defs/runs" }
+      }
+    },
+    "runs": {
+      "description": "What a runtime runs and what a PC needs for it (docs/build/RUNTIMES-V03.md). Read by apps from 0.3; older apps ignore it. Wrong, apps leave it out and keep the runtime.",
+      "type": "object",
+      "required": ["kinds"],
+      "additionalProperties": false,
+      "properties": {
+        "kinds": { "description": "The kinds of model it runs; none for a tool that only sets other runtimes up (uv).", "type": "array", "items": { "enum": ["llm", "image", "video", "audio", "voice"] } },
+        "families": { "type": "array", "items": { "$ref": "#/$defs/family" } },
+        "entriesOnly": { "description": "It runs the catalogue's own entries only (their recipes or packs), never a file found on Hugging Face.", "type": "boolean" },
+        "floor": { "$ref": "#/$defs/floor" },
+        "loadDeadlineS": { "description": "How long one model load may take before it counts as failed, in seconds (a family may say its own).", "type": "number", "exclusiveMinimum": 0 },
+        "modelFirst": { "description": "Its setup step reads the model's files, so a model on it downloads first and it after.", "type": "boolean" }
+      }
+    },
+    "family": {
+      "description": "A set of models a runtime runs one way: matched by the GGUF architecture and, where the runtime is strict, the exact file.",
+      "type": "object",
+      "required": ["id", "title", "architectures", "layouts"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "description": "The runtime's own name for it (Strata's --family).", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "architectures": { "description": "GGUF general.architecture values it takes; * for any.", "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^(\\*|[a-zA-Z0-9][a-zA-Z0-9_.-]{0,39})$" } },
+        "layouts": { "description": "dense (on the card, or split with RAM), moe (a mixture of experts), stream (huge: experts read from the SSD).", "type": "array", "minItems": 1, "items": { "enum": ["dense", "moe", "stream"] } },
+        "quants": { "description": "The copies it takes, by the quantisation in the file name, with what each needs. Absent: any copy.", "type": "object", "additionalProperties": { "$ref": "#/$defs/quant" } },
+        "files": { "description": "The files it takes in plain words, for the line that says why a copy is not one.", "type": "string", "minLength": 1, "maxLength": 200 },
+        "fileMatch": { "description": "A case-insensitive regular expression the GGUF's path in its repo must match: families of one architecture a runtime tells apart by their files (Strata's swift). Absent: any file.", "type": "string", "minLength": 1, "maxLength": 200 },
+        "needsKeys": { "description": "Header keys a file must have (the MTP draft block).", "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]{1,80}$" } },
+        "refusesExpertTypes": { "description": "Expert tensor types it cannot run.", "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]{1,80}$" } },
+        "entriesOnly": { "description": "It runs the catalogue's own entries for this family only (what its setup prepares).", "type": "boolean" },
+        "floor": { "$ref": "#/$defs/floor" },
+        "loadDeadlineS": { "description": "How long one load may take, in seconds.", "type": "number", "exclusiveMinimum": 0 },
+        "prefer": { "description": "Higher wins when more than one runtime takes a model on a PC (llama.cpp 10, Strata 20).", "type": "number", "minimum": 0 },
+        "engine": { "description": "The engine inside the runtime that runs this family, when it is a program of its own (strata-dsv41).", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" }
+      }
+    },
+    "quant": {
+      "description": "One copy a family takes (by the quantisation in its file name), and what it needs.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ramGb": { "description": "The PC's RAM the runtime plans for with this copy, a floor (Strata's own plan).", "type": "number", "minimum": 0 },
+        "vramGb": { "description": "The graphics card it wants, a floor.", "type": "number", "minimum": 0 },
+        "diskGb": { "description": "Disk the whole set takes on the models drive, with the files it shares with other sets.", "type": "number", "minimum": 0 },
+        "model": { "description": "The runtime's own name for this copy (Strata's --model).", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" },
+        "useGb": { "description": "RAM the runtime's own process holds with this copy (Strata: the experts it keeps in RAM). Install registers it as the model's RAM, never the floor.", "type": "number", "minimum": 0 },
+        "useVramGb": { "description": "Graphics memory the process needs at the least with this copy; its expert cache takes what else is free. Install registers it as the model's graphics memory.", "type": "number", "minimum": 0 }
+      }
+    },
+    "floor": {
+      "description": "What a PC needs for a runtime (or one of its families) to be offered. GB as PCs are sold (a 32 GB PC).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ramGb": { "type": "number", "minimum": 0 },
+        "vramGb": { "description": "The graphics card's own memory.", "type": "number", "minimum": 0 },
+        "vendors": { "description": "Card makers it runs on. Absent: any.", "type": "array", "items": { "enum": ["nvidia", "amd", "intel"] } },
+        "diskGb": { "description": "Free on the models drive beyond the model's own files.", "type": "number", "minimum": 0 }
       }
     }
   }

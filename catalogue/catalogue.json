@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-29T01:46:06.041Z",
+  "updatedAt": "2026-10-29T12:00:50.343Z",
   "models": [
     {
       "id": "flash-next",
@@ -12,6 +12,7 @@
       ],
       "registryId": "flash-next",
       "runtime": "strata",
+      "architecture": "qwen4exp",
       "minTier": "S",
       "vramGb": 20,
       "ramGb": 42,
@@ -48,7 +49,7 @@
           "dest": "Huihui/Qwen3.8-Flash-Next-abliterated-v2-swift-IQ3_XXS/mmproj-Swift-Qwen3.8-Flash-Next-BF16.gguf"
         }
       ],
-      "notes": "The big brain: wants a 24 GB card and 64 GB of RAM. It runs on Strata, which YUKI sets up for you (that setup is new on a fresh PC, so YUKI says so); the smaller brain lands first so you can chat while it does."
+      "notes": "The big brain, for the PCs with the most graphics memory and RAM (the model manager says what this PC has and lacks). It runs on Strata, which YUKI sets up for you (that setup is new on a fresh PC, so YUKI says so); the smaller brain lands first so you can chat while it does."
     },
     {
       "id": "qwen3.8-27b-q4km",
@@ -59,13 +60,22 @@
       ],
       "registryId": "qwen3.8-27b",
       "runtime": "llama.cpp",
+      "architecture": "qwen35",
       "minTier": "A",
       "vramGb": 20,
       "ramGb": 3,
       "rank": 27,
+      "dense": {
+        "layers": 65,
+        "layerBytes": 14782193664,
+        "headBytes": 1042964480,
+        "embdBytes": 715161600,
+        "kvBytesPerToken": 34816,
+        "recurrentBytesPerSlot": 156893184,
+        "contextLength": 262144
+      },
       "tags": [
-        "personal",
-        "uncensored"
+        "personal"
       ],
       "licence": {
         "id": "apache-2.0",
@@ -103,13 +113,22 @@
       ],
       "registryId": "qwen3.8-27b",
       "runtime": "llama.cpp",
+      "architecture": "qwen35",
       "minTier": "A",
       "vramGb": 18,
       "ramGb": 3,
       "rank": 27,
+      "dense": {
+        "layers": 65,
+        "layerBytes": 11900473344,
+        "headBytes": 1042964480,
+        "embdBytes": 546304000,
+        "kvBytesPerToken": 34816,
+        "recurrentBytesPerSlot": 156893184,
+        "contextLength": 262144
+      },
       "tags": [
-        "personal",
-        "uncensored"
+        "personal"
       ],
       "licence": {
         "id": "apache-2.0",
@@ -147,6 +166,7 @@
       ],
       "registryId": "huihui-qwen3-30b-a3b",
       "runtime": "llama.cpp",
+      "architecture": "qwen3moe",
       "minTier": "D",
       "vramGb": 20,
       "vramMinGb": 2.5,
@@ -161,8 +181,7 @@
         "contextLength": 262144
       },
       "tags": [
-        "personal",
-        "uncensored"
+        "personal"
       ],
       "licence": {
         "id": "apache-2.0",
@@ -192,6 +211,7 @@
       ],
       "registryId": "huihui-qwen3-30b-a3b",
       "runtime": "llama.cpp",
+      "architecture": "qwen3moe",
       "minTier": "D",
       "vramGb": 14,
       "vramMinGb": 2,
@@ -206,8 +226,7 @@
         "contextLength": 262144
       },
       "tags": [
-        "personal",
-        "uncensored"
+        "personal"
       ],
       "licence": {
         "id": "apache-2.0",
@@ -540,6 +559,7 @@
         "safety"
       ],
       "runtime": "llama.cpp",
+      "architecture": "mistral3",
       "minTier": "D",
       "vramGb": 0,
       "ramGb": 4,
@@ -581,6 +601,7 @@
       ],
       "registryId": "huihui-qwen3-30b-a3b",
       "runtime": "llama.cpp",
+      "architecture": "qwen3moe",
       "minTier": "D",
       "vramGb": 15,
       "vramMinGb": 2,
@@ -595,8 +616,7 @@
         "contextLength": 262144
       },
       "tags": [
-        "personal",
-        "uncensored"
+        "personal"
       ],
       "licence": {
         "id": "apache-2.0",
@@ -629,6 +649,7 @@
         "brain.small"
       ],
       "runtime": "llama.cpp",
+      "architecture": "lfm2moe",
       "minTier": "D",
       "vramGb": 5,
       "vramMinGb": 5,
@@ -683,7 +704,10 @@
         "commercial": "yes",
         "summary": "Free to use, change and share, commercially too, under either licence, keeping the notice. YUKI uses it only to build the Python environments ComfyUI and Strata run in, inside their own folders."
       },
-      "notes": "Astral's Python package manager. It makes private Python environments, so nothing is installed into a Python you already have."
+      "notes": "Astral's Python package manager. It makes private Python environments, so nothing is installed into a Python you already have.",
+      "runs": {
+        "kinds": []
+      }
     },
     {
       "id": "llama.cpp-cuda",
@@ -714,7 +738,23 @@
         "commercial": "yes",
         "summary": "Free to use, change and share, commercially too, keeping the copyright notice. The CUDA runtime files that come with it are NVIDIA's, under NVIDIA's own redistributable licence."
       },
-      "notes": "Runs the 27B brain and the small brain on your graphics card. The build YUKI is tested with; it needs an NVIDIA driver from 2024 or newer."
+      "notes": "Runs the 27B brain and the small brain on your graphics card. The build YUKI is tested with; it needs an NVIDIA driver from 2024 or newer.",
+      "runs": {
+        "kinds": ["llm"],
+        "floor": {
+          "vendors": ["nvidia"]
+        },
+        "loadDeadlineS": 420,
+        "families": [
+          {
+            "id": "gguf",
+            "title": "GGUF models",
+            "architectures": ["llama", "llama4", "deci", "falcon", "grok", "gpt2", "gptj", "gptneox", "mpt", "baichuan", "starcoder", "refact", "bert", "modern-bert", "nomic-bert", "nomic-bert-moe", "neo-bert", "jina-bert-v2", "jina-bert-v3", "eurobert", "bloom", "stablelm", "qwen", "qwen2", "qwen2moe", "qwen2vl", "qwen3", "qwen3moe", "qwen3next", "qwen3vl", "qwen3vlmoe", "qwen35", "qwen35moe", "clef", "qwen4exp", "phi2", "phi3", "phimoe", "plamo", "plamo2", "plamo3", "codeshell", "orion", "internlm2", "minicpm", "minicpm3", "gemma", "gemma2", "gemma3", "gemma3n", "gemma4", "gemma4-assistant", "gemma-embedding", "gemma-embedding2", "starcoder2", "mamba", "mamba2", "maple", "jamba", "falcon-h1", "xverse", "command-r", "cohere2", "cohere2moe", "dbrx", "olmo", "olmo2", "olmoe", "muse-glimmer", "openelm", "arctic", "deepseek", "deepseek2", "deepseek2-ocr", "deepseek32", "deepseek4", "chatglm", "glm4", "glm4moe", "glm-dsa", "bitnet", "t5", "t5encoder", "jais", "jais2", "nemotron", "nemotron_h", "nemotron_h_moe", "exaone", "exaone4", "exaone-moe", "rwkv6", "rwkv6qwen2", "rwkv7", "arwkv7", "granite", "granitemoe", "granitehybrid", "graniteswitch", "granite_swa", "chameleon", "wavtokenizer-dec", "plm", "bailingmoe", "bailingmoe2", "bailingmoe3", "dots1", "dots3note", "arcee", "afmoe", "laguna", "ernie4_5", "ernie4_5-moe", "hunyuan-moe", "hunyuan-dense", "hunyuan_vl", "hy_v3", "hy_v4", "smollm3", "gpt-oss", "lfm2", "lfm2moe", "dream", "smallthinker", "llada", "llada-moe", "seed_oss", "grovemoe", "apertus", "minimax-01", "hrm_text", "minimax-m2", "minimax-m3", "cogvlm", "rnd1", "pangu-embedded", "mistral3", "eagle3", "dflash", "mistral4", "paddleocr", "mimo2", "step35", "spark2_5", "llama-embed", "maincoder", "kimi-linear", "kimi-k3", "glm5-next", "talkie", "mellum", "nanbeige", "qwen3tts", "pockettts", "k2-horizon"],
+            "layouts": ["dense", "moe"],
+            "prefer": 10
+          }
+        ]
+      }
     },
     {
       "id": "comfyui",
@@ -745,7 +785,14 @@
         "commercial": "yes",
         "summary": "Free to use, change and share, commercially too. If you share a changed copy of ComfyUI itself, it has to stay GPL with its source. What you make with it is yours. Setting it up also downloads PyTorch for CUDA and the Python packages ComfyUI lists, each under its own licence."
       },
-      "notes": "Makes pictures, video and music on your graphics card. YUKI builds its own Python environment for it (PyTorch for CUDA, a few GB), separate from anything else on the PC. That PyTorch is built for CUDA 13, so it needs an NVIDIA driver from the R580 branch (mid-2025) or newer."
+      "notes": "Makes pictures, video and music on your graphics card. YUKI builds its own Python environment for it (PyTorch for CUDA, a few GB), separate from anything else on the PC. That PyTorch is built for CUDA 13, so it needs an NVIDIA driver from the R580 branch (mid-2025) or newer.",
+      "runs": {
+        "kinds": ["image", "video", "audio"],
+        "entriesOnly": true,
+        "floor": {
+          "vendors": ["nvidia"]
+        }
+      }
     },
     {
       "id": "strata",
@@ -777,7 +824,35 @@
         "commercial": "yes",
         "summary": "Free to use, change and share, commercially too, keeping the copyright notice. Strata's own setup also downloads its ready-made engine and Python packages (NVIDIA's CUDA libraries among them), each under its own licence."
       },
-      "notes": "Runs the big brain (Flash-Next) across your graphics card and RAM. YUKI runs Strata's own setup for you; that is new on a fresh PC, so if it stops, the smaller brain keeps working and YUKI says what happened. Its engine is built for CUDA 13: NVIDIA driver R580 or newer."
+      "notes": "Runs the big brain (Flash-Next) across your graphics card and RAM. YUKI runs Strata's own setup for you; that is new on a fresh PC, so if it stops, the smaller brain keeps working and YUKI says what happened. Its engine is built for CUDA 13: NVIDIA driver R580 or newer.",
+      "runs": {
+        "kinds": ["llm"],
+        "floor": {
+          "ramGb": 32,
+          "vramGb": 12,
+          "vendors": ["nvidia"]
+        },
+        "loadDeadlineS": 300,
+        "modelFirst": true,
+        "families": [
+          {
+            "id": "swift",
+            "title": "Qwen3.8 Flash-Next (Swift 1.5)",
+            "architectures": ["qwen4exp"],
+            "layouts": ["moe"],
+            "quants": {
+              "IQ3_XXS": {
+                "ramGb": 42,
+                "vramGb": 20,
+                "model": "IQ3_XXS"
+              }
+            },
+            "files": "the catalogue's Swift 1.5 IQ3_XXS pack, which its setup prepares",
+            "entriesOnly": true,
+            "prefer": 20
+          }
+        ]
+      }
     },
     {
       "id": "qwen3-tts-runtime",
@@ -787,7 +862,9 @@
       "backend": "cuda",
       "minTier": "C",
       "minDriver": "580",
-      "needs": ["uv"],
+      "needs": [
+        "uv"
+      ],
       "archives": [],
       "check": ".yuki-runtime.json",
       "setup": "qwen3-tts",
@@ -800,7 +877,127 @@
         "commercial": "yes",
         "summary": "Free to use, change and share, commercially too, keeping the licence notice. Setup also downloads PyTorch and the pinned Python packages, each under its own licence."
       },
-      "notes": "The private Python environment for Hina's Qwen3-TTS voice. The voice card installs this before the model weights."
+      "notes": "The private Python environment for Hina's Qwen3-TTS voice. The voice card installs this before the model weights.",
+      "runs": {
+        "kinds": ["voice"],
+        "entriesOnly": true,
+        "floor": {
+          "vendors": ["nvidia"]
+        }
+      }
     }
-  ]
+  ],
+  "pipeline": {
+    "bpw": {
+      "cardBest": 8.6,
+      "splitBest": 5.1,
+      "good": 4.5,
+      "fair": 3,
+      "least": 2
+    },
+    "context": {
+      "aim": 32768,
+      "floor": 16384
+    },
+    "strataArchitectures": [],
+    "hugeB": 400,
+    "speed": {
+      "ramGBps": 45,
+      "splitFast": 8
+    },
+    "media": {
+      "tags": {
+        "text-to-image": "image",
+        "image-to-image": "image",
+        "unconditional-image-generation": "image",
+        "text-to-video": "video",
+        "image-to-video": "video",
+        "text-to-audio": "audio",
+        "text-to-speech": "voice",
+        "automatic-speech-recognition": "voice",
+        "FluxPipeline": "image",
+        "StableDiffusionXLPipeline": "image",
+        "StableDiffusion3Pipeline": "image",
+        "QwenImagePipeline": "image",
+        "WanPipeline": "video",
+        "HunyuanVideoPipeline": "video",
+        "LTXPipeline": "video"
+      },
+      "architectures": {
+        "flux": "image",
+        "sd1": "image",
+        "sdxl": "image",
+        "sd3": "image",
+        "aura": "image",
+        "qwen_image": "image",
+        "wan": "video",
+        "hyvid": "video",
+        "ltxv": "video",
+        "cosmos": "video",
+        "ace": "audio"
+      }
+    },
+    "licences": {
+      "apache-2.0": {
+        "name": "Apache 2.0",
+        "summary": "Free to use, change and share, commercially too. Keep the licence and its notices with it.",
+        "commercial": "yes"
+      },
+      "mit": {
+        "name": "MIT",
+        "summary": "Free to use, change and share, commercially too. Keep the licence notice with it.",
+        "commercial": "yes"
+      },
+      "bsd-3-clause": {
+        "name": "BSD 3-Clause",
+        "summary": "Free to use, change and share, commercially too. Keep the licence notice with it.",
+        "commercial": "yes"
+      },
+      "cc-by-4.0": {
+        "name": "CC BY 4.0",
+        "summary": "Free to use, change and share, commercially too, as long as you credit its makers.",
+        "commercial": "yes"
+      },
+      "cc-by-nc-4.0": {
+        "name": "CC BY-NC 4.0",
+        "summary": "Free for personal and other non-commercial use, crediting its makers. Not for selling or paid services.",
+        "commercial": "no"
+      },
+      "llama3": {
+        "name": "Llama 3 Community Licence",
+        "summary": "Free to use and share under Meta's terms and acceptable use policy; services with over 700 million monthly users need Meta's permission.",
+        "commercial": "limited"
+      },
+      "llama3.1": {
+        "name": "Llama 3.1 Community Licence",
+        "summary": "Free to use and share under Meta's terms and acceptable use policy; services with over 700 million monthly users need Meta's permission.",
+        "commercial": "limited"
+      },
+      "llama3.2": {
+        "name": "Llama 3.2 Community Licence",
+        "summary": "Free to use and share under Meta's terms and acceptable use policy; services with over 700 million monthly users need Meta's permission.",
+        "commercial": "limited"
+      },
+      "llama3.3": {
+        "name": "Llama 3.3 Community Licence",
+        "summary": "Free to use and share under Meta's terms and acceptable use policy; services with over 700 million monthly users need Meta's permission.",
+        "commercial": "limited"
+      },
+      "gemma": {
+        "name": "Gemma Terms of Use",
+        "summary": "Free to use and share under Google's terms and prohibited use policy, which pass on to anyone you share it with.",
+        "commercial": "limited"
+      },
+      "qwen": {
+        "name": "Qwen Licence",
+        "summary": "Free to use and share under Qwen's terms; services with over 100 million monthly users need their permission.",
+        "commercial": "limited"
+      },
+      "flux-1-dev-non-commercial-license": {
+        "name": "FLUX.1 [dev] Non-Commercial Licence",
+        "summary": "Free for personal and other non-commercial use. Pictures you make may be used commercially; the model itself may not.",
+        "commercial": "limited"
+      }
+    }
+  }
 }
