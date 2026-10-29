@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-10-29T01:46:06.041Z",
   "models": [
     {
       "id": "flash-next",
@@ -571,6 +571,93 @@
       "notes": "Only for hosting dex inference: the usage-policy check every host runs on its prompts and generated images, on the CPU (no graphics memory). YUKI on your own PC never uses it on your own work."
     }
   ],
+  "previews": [
+    {
+      "id": "huihui-qwen3-30b-a3b-q3ks",
+      "title": "Huihui Qwen3 30B-A3B abliterated (Q3_K_S)",
+      "kind": "llm",
+      "roles": [
+        "brain.small"
+      ],
+      "registryId": "huihui-qwen3-30b-a3b",
+      "runtime": "llama.cpp",
+      "minTier": "D",
+      "vramGb": 15,
+      "vramMinGb": 2,
+      "ramGb": 13,
+      "rank": 11,
+      "moe": {
+        "layers": 48,
+        "expertBytes": 12457082880,
+        "gpuBytes": 695711744,
+        "embdBytes": 133703680,
+        "kvBytesPerToken": 52224,
+        "contextLength": 262144
+      },
+      "tags": [
+        "personal",
+        "uncensored"
+      ],
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is huihui-ai's abliterated build of Qwen3 30B-A3B Instruct 2507, quantised by mradermacher."
+      },
+      "files": [
+        {
+          "repo": "mradermacher/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated-i1-GGUF",
+          "file": "Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-Q3_K_S.gguf",
+          "revision": "55e4fd1638fc3b146ab3ca562aed42ce67e65d27",
+          "sha256": "807287fcdf225389de5a08164db895431a524ebf9c630d2713ee1be0bdaaaf2f",
+          "size": 13292469184,
+          "dest": "Huihui-Qwen3-30B-A3B-abliterated/Huihui-Qwen3-30B-A3B-Instruct-2507-abliterated.i1-Q3_K_S.gguf"
+        }
+      ],
+      "notes": "The small brain for 6 GB cards with 16 GB of RAM: most of its experts wait in RAM, and the processor works through this copy faster than the IQ3_XXS copy. It needs about 1.3 GB more RAM, so close big programs while it thinks. It reads text only.",
+      "trial": {
+        "baselineItemId": "huihui-qwen3-30b-a3b-iq3xxs",
+        "minSpeedup": 1.1
+      }
+    },
+    {
+      "id": "lfm2-8b-a1b-q4km",
+      "title": "LFM2 8B-A1B (Q4_K_M)",
+      "kind": "llm",
+      "roles": [
+        "brain.small"
+      ],
+      "runtime": "llama.cpp",
+      "minTier": "D",
+      "vramGb": 5,
+      "vramMinGb": 5,
+      "ramGb": 2,
+      "rank": 6,
+      "tags": [
+        "fast"
+      ],
+      "context": 32768,
+      "licence": {
+        "id": "lfm1.0",
+        "name": "LFM Open Licence 1.0",
+        "url": "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/blob/145e98524a2ed11d35a45e0080febcee063749b6/LICENSE",
+        "summary": "Liquid AI’s LFM Open Licence 1.0. Read the licence before installing; commercial terms depend on revenue.",
+        "commercial": "limited"
+      },
+      "files": [
+        {
+          "repo": "LiquidAI/LFM2-8B-A1B-GGUF",
+          "file": "LFM2-8B-A1B-Q4_K_M.gguf",
+          "revision": "145e98524a2ed11d35a45e0080febcee063749b6",
+          "sha256": "d2185b22630fc68043dac7182f12e86e5ad14990229a90b6c9ad3f4421ddaf82",
+          "size": 5044779712,
+          "dest": "LFM2-8B-A1B/LFM2-8B-A1B-Q4_K_M.gguf"
+        }
+      ],
+      "notes": "A fast 8B mixture-of-experts brain that fits wholly on a 6 GB card. About 1B parameters work on each word."
+    }
+  ],
   "skills": [],
   "voices": [],
   "runtimes": [
@@ -691,6 +778,29 @@
         "summary": "Free to use, change and share, commercially too, keeping the copyright notice. Strata's own setup also downloads its ready-made engine and Python packages (NVIDIA's CUDA libraries among them), each under its own licence."
       },
       "notes": "Runs the big brain (Flash-Next) across your graphics card and RAM. YUKI runs Strata's own setup for you; that is new on a fresh PC, so if it stops, the smaller brain keeps working and YUKI says what happened. Its engine is built for CUDA 13: NVIDIA driver R580 or newer."
+    },
+    {
+      "id": "qwen3-tts-runtime",
+      "title": "Qwen3-TTS voice runtime",
+      "runtime": "qwen3-tts",
+      "version": "1.0.0",
+      "backend": "cuda",
+      "minTier": "C",
+      "minDriver": "580",
+      "needs": ["uv"],
+      "archives": [],
+      "check": ".yuki-runtime.json",
+      "setup": "qwen3-tts",
+      "diskGb": 5,
+      "experimental": true,
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://github.com/QwenLM/Qwen3-TTS/blob/main/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence notice. Setup also downloads PyTorch and the pinned Python packages, each under its own licence."
+      },
+      "notes": "The private Python environment for Hina's Qwen3-TTS voice. The voice card installs this before the model weights."
     }
   ]
 }
