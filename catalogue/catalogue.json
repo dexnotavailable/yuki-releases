@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-29T12:00:50.343Z",
+  "updatedAt": "2026-10-29T17:31:16.135Z",
   "models": [
     {
       "id": "flash-next",
@@ -884,6 +884,248 @@
         "floor": {
           "vendors": ["nvidia"]
         }
+      }
+    }
+  ],
+  "runtimesNext": [
+    {
+      "id": "strata",
+      "title": "Strata (MoE engine)",
+      "runtime": "strata",
+      "version": "0.2.7",
+      "backend": "cuda",
+      "minTier": "B",
+      "minDriver": "580.65",
+      "archives": [
+        {
+          "url": "https://github.com/Niko1221/Strata/releases/download/v0.2.7/strata-control-0.1.53-windows-x86_64.zip",
+          "sha256": "72cb29f2bb0fc534d4a2d7ea7d76afce0f7e2d41c72cb54a88fe2080eb2cf5ac",
+          "size": 73064190,
+          "into": "terminal"
+        },
+        {
+          "url": "https://github.com/Niko1221/Strata/releases/download/v0.2.7/strata-engine-0.1.52-windows-x86_64-cuda-cuda13.tar.gz",
+          "sha256": "bfa68c6b2e92f9c273caaf937d9ae164918e6de4cca2dc1f1d79d32470f0915a",
+          "size": 620430878,
+          "into": "components/engine/0.1.52-windows-x86_64-cuda-cuda13"
+        },
+        {
+          "url": "https://github.com/Niko1221/Strata/releases/download/v0.2.7/strata-dsv41-0.1.52-windows-x86_64-cuda-cuda13.tar.gz",
+          "sha256": "f1a3ae88f770b0ef2a3adb9fc7a7166af79069532210bf0f9c7970845cb75865",
+          "size": 422151870,
+          "into": "install/engine-dsv41/0.1.52-windows-x86_64-cuda-cuda13"
+        }
+      ],
+      "check": "terminal/bin/strata.cmd",
+      "setup": "strata-terminal",
+      "diskGb": 3,
+      "experimental": true,
+      "licence": {
+        "id": "mit",
+        "name": "MIT",
+        "url": "https://github.com/Niko1221/Strata/blob/main/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the copyright notice (Strata, by Niko1221 and its contributors, credited). Its packages also carry Python and NVIDIA's CUDA libraries, each under its own licence."
+      },
+      "notes": "Runs the big brains across your graphics card and RAM, and DeepSeek V4.1 Flash from your SSD. YUKI unpacks Strata's own Terminal and its NVIDIA engine, each pinned and checked, and Strata prepares every model it runs. Its engine is built for CUDA 13: NVIDIA driver R580.65 or newer.",
+      "runs": {
+        "kinds": ["llm"],
+        "floor": {
+          "ramGb": 32,
+          "vramGb": 12,
+          "vendors": ["nvidia"]
+        },
+        "loadDeadlineS": 600,
+        "families": [
+          {
+            "id": "qwen36",
+            "title": "Qwen3.6-35B-A3B",
+            "architectures": ["qwen35moe"],
+            "layouts": ["moe"],
+            "quants": {
+              "UD-Q4_K_XL": {
+                "ramGb": 32,
+                "useGb": 19,
+                "useVramGb": 5,
+                "model": "UD-Q4_K_XL"
+              },
+              "UD-Q6_K_XL": {
+                "ramGb": 44,
+                "useGb": 28,
+                "useVramGb": 5,
+                "model": "UD-Q6_K_XL"
+              },
+              "Q8_0": {
+                "ramGb": 52,
+                "useGb": 33,
+                "useVramGb": 5,
+                "model": "Q8_0"
+              }
+            },
+            "files": "Unsloth's MTP GGUFs (UD-Q4_K_XL, UD-Q6_K_XL or Q8_0)",
+            "needsKeys": ["qwen35moe.nextn_predict_layers"],
+            "refusesExpertTypes": ["IQ2_S", "IQ3_S"],
+            "prefer": 20
+          },
+          {
+            "id": "qwen",
+            "title": "Qwen3.8 Flash-Next",
+            "architectures": ["qwen4exp"],
+            "layouts": ["moe"],
+            "fileMatch": "(^|/)Qwen3\\.8-Flash-Next-GSQ-RCO-",
+            "quants": {
+              "Q2_0": {
+                "ramGb": 44,
+                "useGb": 34,
+                "useVramGb": 5,
+                "model": "Q2_0"
+              },
+              "IQ2_XS": {
+                "ramGb": 46,
+                "useGb": 36,
+                "useVramGb": 5,
+                "model": "IQ2_XS"
+              },
+              "IQ3_XXS": {
+                "ramGb": 53,
+                "useGb": 43,
+                "useVramGb": 5,
+                "model": "IQ3_XXS"
+              },
+              "IQ3_S": {
+                "ramGb": 60,
+                "useGb": 50,
+                "useVramGb": 5,
+                "model": "IQ3_S"
+              }
+            },
+            "files": "ISTA-DASLab's GSQ-RCO files (Q2_0, IQ2_XS, IQ3_XXS or IQ3_S)",
+            "prefer": 20
+          },
+          {
+            "id": "swift",
+            "title": "Qwen3.8 Flash-Next",
+            "architectures": ["qwen4exp"],
+            "layouts": ["moe"],
+            "fileMatch": "(^|/)Swift-Qwen3\\.8-Flash-Next-GSQ-RCO-",
+            "quants": {
+              "IQ2_XS": {
+                "ramGb": 46,
+                "useGb": 36,
+                "useVramGb": 5,
+                "model": "IQ2_XS"
+              },
+              "IQ3_XXS": {
+                "ramGb": 53,
+                "useGb": 43,
+                "useVramGb": 5,
+                "model": "IQ3_XXS"
+              },
+              "IQ3_S": {
+                "ramGb": 60,
+                "useGb": 50,
+                "useVramGb": 5,
+                "model": "IQ3_S"
+              }
+            },
+            "files": "Swift 1.5's (UkisAI's, and builds of them such as huihui-ai's swift-*)",
+            "prefer": 20
+          },
+          {
+            "id": "coder",
+            "title": "Qwen3.8 Flash-Next",
+            "architectures": ["qwen4exp"],
+            "layouts": ["moe"],
+            "fileMatch": "(^|/)Qwen3\\.8-Flash-Next-GSQ-RCO-IQ1_M-",
+            "quants": {
+              "IQ1_M": {
+                "ramGb": 33,
+                "useGb": 23,
+                "useVramGb": 5,
+                "model": "IQ1_M"
+              }
+            },
+            "files": "ISTA-DASLab's Coder (IQ1_M)",
+            "prefer": 20
+          },
+          {
+            "id": "unsloth",
+            "title": "Qwen3.8 Flash-Next",
+            "architectures": ["qwen4exp"],
+            "layouts": ["moe"],
+            "fileMatch": "(^|/)Qwen3\\.8-Flash-Next-(UD-|Q8_0-)",
+            "quants": {
+              "UD-IQ4_XS": {
+                "ramGb": 72,
+                "useGb": 55,
+                "useVramGb": 5,
+                "model": "UD-IQ4_XS"
+              },
+              "UD-Q4_K_XL": {
+                "ramGb": 88,
+                "useGb": 72,
+                "useVramGb": 5,
+                "model": "UD-Q4_K_XL"
+              },
+              "UD-Q5_K_XL": {
+                "ramGb": 108,
+                "useGb": 92,
+                "useVramGb": 5,
+                "model": "UD-Q5_K_XL"
+              },
+              "UD-Q6_K_XL": {
+                "ramGb": 118,
+                "useGb": 102,
+                "useVramGb": 5,
+                "model": "UD-Q6_K_XL"
+              },
+              "Q8_0": {
+                "ramGb": 136,
+                "useGb": 120,
+                "useVramGb": 5,
+                "model": "Q8_0"
+              }
+            },
+            "files": "Unsloth's (UD-IQ4_XS to Q8_0)",
+            "prefer": 20
+          },
+          {
+            "id": "deepseek41",
+            "title": "DeepSeek V4.1 Flash",
+            "architectures": ["deepseek41"],
+            "layouts": ["stream"],
+            "fileMatch": "(^|/)DeepSeek-V4\\.1-Flash-1017-GSQ-RCO-",
+            "quants": {
+              "IQ1_M": {
+                "diskGb": 239,
+                "useGb": 36,
+                "useVramGb": 6,
+                "model": "IST-DAS-1.75bpw"
+              },
+              "IQ2_XXS": {
+                "diskGb": 257,
+                "useGb": 36,
+                "useVramGb": 6,
+                "model": "IST-DAS-2.00bpw"
+              },
+              "IQ2_XS": {
+                "diskGb": 274,
+                "useGb": 36,
+                "useVramGb": 6,
+                "model": "IST-DAS-2.25bpw"
+              }
+            },
+            "files": "ISTA-DASLab's 1.75, 2.00 and 2.25 bpw sets",
+            "floor": {
+              "ramGb": 46,
+              "vramGb": 12,
+              "vendors": ["nvidia"]
+            },
+            "loadDeadlineS": 3600,
+            "engine": "strata-dsv41",
+            "prefer": 20
+          }
+        ]
       }
     }
   ],
