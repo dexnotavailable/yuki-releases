@@ -329,6 +329,13 @@
         "launch": {
           "$ref": "#/$defs/runtimeLaunch"
         },
+        "effort": {
+          "type": "object", "additionalProperties": false, "required": ["choices", "default"],
+          "properties": {
+            "choices": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" } },
+            "default": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" }
+          }
+        },
         "residentLaunch": { "$ref": "#/$defs/residentLaunch" },
         "localPatch": {
           "$ref": "#/$defs/localPatch"
@@ -371,6 +378,7 @@
         "kvBytesPerToken"
       ],
       "properties": {
+        "engineMiB": { "type": "number", "minimum": 0 },
         "arenaGb": {
           "type": "object",
           "minProperties": 1,
@@ -511,6 +519,17 @@
             "cacheRamFraction": {
               "type": "number",
               "exclusiveMinimum": 0
+            },
+            "vramMiB": { "type": "number", "minimum": 0 },
+            "contextMemory": {
+              "type": "object", "additionalProperties": false,
+              "required": ["floor", "step", "ramBytesPerToken", "vramBytesPerToken"],
+              "properties": {
+                "floor": { "type": "integer", "minimum": 1024, "maximum": 1048576 },
+                "step": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+                "ramBytesPerToken": { "type": "number", "minimum": 0 },
+                "vramBytesPerToken": { "type": "number", "minimum": 0 }
+              }
             },
             "ramHeadroomMiB": {
               "type": "number",

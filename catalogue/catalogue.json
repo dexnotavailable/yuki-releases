@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30T09:44:44.128Z",
+  "updatedAt": "2026-10-30T18:35:08.454Z",
   "models": [
     {
       "id": "flash-next",
@@ -1019,6 +1019,7 @@
             "files": "ISTA-DASLab's GSQ-RCO files (Q2_0, IQ2_XS, IQ3_XXS or IQ3_S)",
             "prefer": 20,
             "residentLaunch": {
+              "engineMiB": 3072,
               "arenaGb": {
                 "Q2_0": 34,
                 "IQ2_XS": 35.5,
@@ -1065,6 +1066,7 @@
             "files": "Swift 1.5's (UkisAI's, and builds of them such as huihui-ai's swift-*)",
             "prefer": 20,
             "residentLaunch": {
+              "engineMiB": 3072,
               "arenaGb": {
                 "IQ2_XS": 35.5,
                 "IQ3_XXS": 42.9,
@@ -1098,6 +1100,7 @@
             "files": "ISTA-DASLab's Coder (IQ1_M)",
             "prefer": 20,
             "residentLaunch": {
+              "engineMiB": 3072,
               "arenaGb": {
                 "IQ1_M": 23.4
               },
@@ -1195,6 +1198,7 @@
             "engine": "strata-dsv41",
             "prefer": 20,
             "engineVersion": "0.1.54",
+            "effort": { "choices": ["none", "low", "medium", "high", "max"], "default": "high" },
             "launch": {
               "defaultMode": "Fast",
               "modes": {
@@ -1216,18 +1220,15 @@
                 }
               },
               "args": {
-                "--prefill-chunk": 8192,
+                "--prefill-chunk": 32768,
                 "--dspark": "auto",
                 "--dspark-conf": 0.65
               },
               "env": {
                 "DS4_ASYNC_T": "8",
-                "STRATA_DS4_REUSE": "0",
-                "STRATA_DS4_SLOT_KEEP": "0",
-                "STRATA_DS4_AUTO_PIN": "0",
                 "STRATA_DS4_DISK_SKIP_FROM": "0"
               },
-              "context": 32768,
+              "context": 262144,
               "parallel": 1,
               "reserveFlag": "--reserve-mib",
               "elastic": false,
@@ -1237,9 +1238,11 @@
                 "reserveVramFraction": 0.16666666666666666,
                 "reserveStepMiB": 512,
                 "threadsFraction": 0.5,
-                "maxThreads": 16
+                "maxThreads": 16,
+                "vramMiB": 6144,
+                "contextMemory": { "floor": 16384, "step": 4096, "ramBytesPerToken": 2800, "vramBytesPerToken": 920 }
               },
-              "note": "Fast skips low-weight disk experts; its quality cost is unmeasured. Speeds were measured at 8K. 32K is a conservative capacity target, not a measured speed guarantee.",
+              "note": "Fast skips low-weight disk experts; its quality cost is unmeasured. Context aims for 256K and shrinks to fit free memory. Sizing budgets 920 bytes per position for compressed device cache and 2800 for saved host state.",
               "vision": {
                 "manifest": "ds4.txt",
                 "requiredKeys": [
