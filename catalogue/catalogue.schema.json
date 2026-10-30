@@ -520,6 +520,12 @@
               "type": "number",
               "exclusiveMinimum": 0
             },
+            "minCacheGiB": {
+              "description": "The smallest RAM expert store worth starting with, in GiB: below it the family refuses rather than run on a store too small to help. Without it the app plans with 4.",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 1024
+            },
             "vramMiB": { "type": "number", "minimum": 0 },
             "contextMemory": {
               "type": "object", "additionalProperties": false,
