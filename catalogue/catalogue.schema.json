@@ -235,20 +235,103 @@
       "required": ["id", "title", "architectures", "layouts"],
       "additionalProperties": false,
       "properties": {
-        "id": { "description": "The runtime's own name for it (Strata's --family).", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" },
-        "title": { "type": "string", "minLength": 1 },
-        "architectures": { "description": "GGUF general.architecture values it takes; * for any.", "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^(\\*|[a-zA-Z0-9][a-zA-Z0-9_.-]{0,39})$" } },
-        "layouts": { "description": "dense (on the card, or split with RAM), moe (a mixture of experts), stream (huge: experts read from the SSD).", "type": "array", "minItems": 1, "items": { "enum": ["dense", "moe", "stream"] } },
-        "quants": { "description": "The copies it takes, by the quantisation in the file name, with what each needs. Absent: any copy.", "type": "object", "additionalProperties": { "$ref": "#/$defs/quant" } },
-        "files": { "description": "The files it takes in plain words, for the line that says why a copy is not one.", "type": "string", "minLength": 1, "maxLength": 200 },
-        "fileMatch": { "description": "A case-insensitive regular expression the GGUF's path in its repo must match: families of one architecture a runtime tells apart by their files (Strata's swift). Absent: any file.", "type": "string", "minLength": 1, "maxLength": 200 },
-        "needsKeys": { "description": "Header keys a file must have (the MTP draft block).", "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]{1,80}$" } },
-        "refusesExpertTypes": { "description": "Expert tensor types it cannot run.", "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]{1,80}$" } },
-        "entriesOnly": { "description": "It runs the catalogue's own entries for this family only (what its setup prepares).", "type": "boolean" },
-        "floor": { "$ref": "#/$defs/floor" },
-        "loadDeadlineS": { "description": "How long one load may take, in seconds.", "type": "number", "exclusiveMinimum": 0 },
-        "prefer": { "description": "Higher wins when more than one runtime takes a model on a PC (llama.cpp 10, Strata 20).", "type": "number", "minimum": 0 },
-        "engine": { "description": "The engine inside the runtime that runs this family, when it is a program of its own (strata-dsv41).", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" }
+        "id": {
+          "description": "The runtime's own name for it (Strata's --family).",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "architectures": {
+          "description": "GGUF general.architecture values it takes; * for any.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^(\\*|[a-zA-Z0-9][a-zA-Z0-9_.-]{0,39})$"
+          }
+        },
+        "layouts": {
+          "description": "dense (on the card, or split with RAM), moe (a mixture of experts), stream (huge: experts read from the SSD).",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "dense",
+              "moe",
+              "stream"
+            ]
+          }
+        },
+        "quants": {
+          "description": "The copies it takes, by the quantisation in the file name, with what each needs. Absent: any copy.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/quant"
+          }
+        },
+        "files": {
+          "description": "The files it takes in plain words, for the line that says why a copy is not one.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "fileMatch": {
+          "description": "A case-insensitive regular expression the GGUF's path in its repo must match: families of one architecture a runtime tells apart by their files (Strata's swift). Absent: any file.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "needsKeys": {
+          "description": "Header keys a file must have (the MTP draft block).",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]{1,80}$"
+          }
+        },
+        "refusesExpertTypes": {
+          "description": "Expert tensor types it cannot run.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]{1,80}$"
+          }
+        },
+        "entriesOnly": {
+          "description": "It runs the catalogue's own entries for this family only (what its setup prepares).",
+          "type": "boolean"
+        },
+        "floor": {
+          "$ref": "#/$defs/floor"
+        },
+        "loadDeadlineS": {
+          "description": "How long one load may take, in seconds.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "prefer": {
+          "description": "Higher wins when more than one runtime takes a model on a PC (llama.cpp 10, Strata 20).",
+          "type": "number",
+          "minimum": 0
+        },
+        "engine": {
+          "description": "The engine inside the runtime that runs this family, when it is a program of its own (strata-dsv41).",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "launch": {
+          "$ref": "#/$defs/runtimeLaunch"
+        },
+        "localPatch": {
+          "$ref": "#/$defs/localPatch"
+        }
       }
     },
     "quant": {
@@ -273,6 +356,194 @@
         "vramGb": { "description": "The graphics card's own memory.", "type": "number", "minimum": 0 },
         "vendors": { "description": "Card makers it runs on. Absent: any.", "type": "array", "items": { "enum": ["nvidia", "amd", "intel"] } },
         "diskGb": { "description": "Free on the models drive beyond the model's own files.", "type": "number", "minimum": 0 }
+      }
+    },
+    "runtimeLaunch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defaultMode",
+        "modes",
+        "args",
+        "env",
+        "context",
+        "parallel",
+        "reserveFlag",
+        "sizing"
+      ],
+      "properties": {
+        "defaultMode": {
+          "type": "string"
+        },
+        "modes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "args",
+              "env"
+            ],
+            "properties": {
+              "args": {
+                "type": "object",
+                "propertyNames": {
+                  "pattern": "^--[a-z][a-z0-9-]{0,63}$"
+                },
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "env": {
+                "type": "object",
+                "propertyNames": {
+                  "pattern": "^(STRATA_DS4_|DS4_)[A-Z0-9_]+$"
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 200
+                }
+              }
+            }
+          }
+        },
+        "args": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^--[a-z][a-z0-9-]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "env": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^(STRATA_DS4_|DS4_)[A-Z0-9_]+$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "context": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 1048576
+        },
+        "parallel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "reserveFlag": {
+          "type": "string",
+          "pattern": "^--[a-z][a-z0-9-]{0,63}$"
+        },
+        "elastic": { "type": "boolean" },
+        "note": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "sizing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cacheRamFraction",
+            "ramHeadroomMiB",
+            "reserveVramFraction",
+            "reserveStepMiB",
+            "threadsFraction",
+            "maxThreads"
+          ],
+          "properties": {
+            "cacheRamFraction": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "ramHeadroomMiB": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "reserveVramFraction": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "reserveStepMiB": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "threadsFraction": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "maxThreads": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    "localPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "sha256",
+        "size",
+        "tensor",
+        "count",
+        "type",
+        "dimensions",
+        "tensorBytes"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tensor": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.]*\\{layer\\}[a-z0-9_.]*$"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "type": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "tensorBytes": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     }
   }
