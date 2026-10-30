@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30T08:30:49.697Z",
+  "updatedAt": "2026-10-30T09:44:44.128Z",
   "models": [
     {
       "id": "flash-next",
@@ -1017,7 +1017,20 @@
               }
             },
             "files": "ISTA-DASLab's GSQ-RCO files (Q2_0, IQ2_XS, IQ3_XXS or IQ3_S)",
-            "prefer": 20
+            "prefer": 20,
+            "residentLaunch": {
+              "arenaGb": {
+                "Q2_0": 34,
+                "IQ2_XS": 35.5,
+                "IQ3_XXS": 42.9,
+                "IQ3_S": 50.3
+              },
+              "headroomMiB": 10240,
+              "gpuOverheadMiB": 5120,
+              "mtpMiB": 1024,
+              "context": 32768,
+              "kvBytesPerToken": 13728
+            }
           },
           {
             "id": "swift",
@@ -1050,7 +1063,19 @@
               }
             },
             "files": "Swift 1.5's (UkisAI's, and builds of them such as huihui-ai's swift-*)",
-            "prefer": 20
+            "prefer": 20,
+            "residentLaunch": {
+              "arenaGb": {
+                "IQ2_XS": 35.5,
+                "IQ3_XXS": 42.9,
+                "IQ3_S": 50.3
+              },
+              "headroomMiB": 10240,
+              "gpuOverheadMiB": 5120,
+              "mtpMiB": 1024,
+              "context": 32768,
+              "kvBytesPerToken": 13728
+            }
           },
           {
             "id": "coder",
@@ -1071,7 +1096,17 @@
               }
             },
             "files": "ISTA-DASLab's Coder (IQ1_M)",
-            "prefer": 20
+            "prefer": 20,
+            "residentLaunch": {
+              "arenaGb": {
+                "IQ1_M": 23.4
+              },
+              "headroomMiB": 10240,
+              "gpuOverheadMiB": 5120,
+              "mtpMiB": 1024,
+              "context": 32768,
+              "kvBytesPerToken": 13728
+            }
           },
           {
             "id": "unsloth",
@@ -1186,7 +1221,11 @@
                 "--dspark-conf": 0.65
               },
               "env": {
-                "DS4_ASYNC_T": "8"
+                "DS4_ASYNC_T": "8",
+                "STRATA_DS4_REUSE": "0",
+                "STRATA_DS4_SLOT_KEEP": "0",
+                "STRATA_DS4_AUTO_PIN": "0",
+                "STRATA_DS4_DISK_SKIP_FROM": "0"
               },
               "context": 32768,
               "parallel": 1,
@@ -1200,7 +1239,14 @@
                 "threadsFraction": 0.5,
                 "maxThreads": 16
               },
-              "note": "Fast skips low-weight disk experts; its quality cost is unmeasured. Speeds were measured at 8K. 32K is a conservative capacity target, not a measured speed guarantee."
+              "note": "Fast skips low-weight disk experts; its quality cost is unmeasured. Speeds were measured at 8K. 32K is a conservative capacity target, not a measured speed guarantee.",
+              "vision": {
+                "manifest": "ds4.txt",
+                "requiredKeys": [
+                  "image_token_id",
+                  "vision.num_hidden_layers"
+                ]
+              }
             },
             "localPatch": {
               "title": "Huihui's DeepSeek V4.1 Flash (abliterated)",

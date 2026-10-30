@@ -329,6 +329,7 @@
         "launch": {
           "$ref": "#/$defs/runtimeLaunch"
         },
+        "residentLaunch": { "$ref": "#/$defs/residentLaunch" },
         "localPatch": {
           "$ref": "#/$defs/localPatch"
         }
@@ -358,6 +359,48 @@
         "diskGb": { "description": "Free on the models drive beyond the model's own files.", "type": "number", "minimum": 0 }
       }
     },
+    "residentLaunch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arenaGb",
+        "headroomMiB",
+        "gpuOverheadMiB",
+        "mtpMiB",
+        "context",
+        "kvBytesPerToken"
+      ],
+      "properties": {
+        "arenaGb": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "headroomMiB": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "gpuOverheadMiB": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "mtpMiB": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "context": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "kvBytesPerToken": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
     "runtimeLaunch": {
       "type": "object",
       "additionalProperties": false,
@@ -372,6 +415,7 @@
         "sizing"
       ],
       "properties": {
+        "vision": {"type":"object","additionalProperties":false,"required":["manifest","requiredKeys"],"properties":{"manifest":{"type":"string","pattern":"^[a-zA-Z0-9_.-]+$"},"requiredKeys":{"type":"array","minItems":1,"items":{"type":"string","pattern":"^[a-zA-Z0-9_.]+$"}}}},
         "defaultMode": {
           "type": "string"
         },
