@@ -16,9 +16,29 @@
     "voices": { "description": "Voices for voice models that learn a voice from reference clips (Qwen3-TTS). Optional: apps before it ignore it.", "type": "array", "items": { "$ref": "#/$defs/voice" } },
     "runtimes": { "description": "Optional (apps from before it ignore it): the programs models run on, fetched on demand.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
     "runtimesNext": { "description": "Optional: runtimes only apps from 0.3 read (older apps read `runtimes` alone and never see these). One with the id of a `runtimes` entry stands in for it in those apps (Strata 0.2.7 for 0.1.43); the rest are added. Only an entry an app runs stands in: one whose setup step it does not run, or whose runs it cannot read, is left out, and the entry it would stand in for stays. Put a runtime here when older apps must not install it.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
-    "pipeline": { "description": "Optional: the model pipeline's rules for a model from Hugging Face (which copy, which starting settings), over the app's own (packages/engine/src/catalogue/pipeline/rules.ts, which says what each one means). Any of bpw, context, strataArchitectures (apps before 0.3 only), hugeB, speed, media, licences; a value that is wrong is ignored. Which runtime runs a model is each runtime's own `runs` (docs/build/RUNTIMES-V03.md).", "type": "object" }
+    "pipeline": {
+      "description": "Optional pipeline rules. context remains the legacy/llama.cpp default; runtimeContext overrides it for a named runtime. Runtimes still own compatibility and their final launch plan.",
+      "type": "object",
+      "properties": {
+        "context": { "$ref": "#/$defs/pipelineContext" },
+        "runtimeContext": { "type": "object", "additionalProperties": { "$ref": "#/$defs/pipelineContext" } },
+        "runtimeFallbacks": {
+          "description": "When the named runtime is absent, try this alternative first, including on a fresh PC. Compatibility and fit still apply to every candidate.",
+          "type": "object", "additionalProperties": { "type": "string", "pattern": "^[a-z][a-z0-9.-]*$" }
+        }
+      }
+    }
   },
   "$defs": {
+    "pipelineContext": {
+      "type": "object",
+      "required": ["aim", "floor"],
+      "additionalProperties": false,
+      "properties": {
+        "aim": { "type": "integer", "minimum": 1024 },
+        "floor": { "type": "integer", "minimum": 1024 }
+      }
+    },
     "id": {
       "description": "Lowercase letters, digits, dots and dashes, up to 64, not ending in a dot. Unique across models, skills and voices. Skill ids become folder names, so a name Windows keeps for devices (con, prn, aux, nul, com0-com9, lpt0-lpt9, with or without an extension) is refused.",
       "type": "string",

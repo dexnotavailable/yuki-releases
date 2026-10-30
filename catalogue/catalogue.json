@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-29T17:31:16.135Z",
+  "updatedAt": "2026-10-30T06:00:40.701Z",
   "models": [
     {
       "id": "flash-next",
@@ -1141,6 +1141,10 @@
       "aim": 32768,
       "floor": 16384
     },
+    "runtimeContext": {
+      "strata": { "aim": 131072, "floor": 32768 }
+    },
+    "runtimeFallbacks": { "strata": "llama.cpp" },
     "strataArchitectures": [],
     "hugeB": 400,
     "speed": {
