@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30T19:37:07.357Z",
+  "updatedAt": "2026-11-05T06:43:40.056Z",
   "models": [
     {
       "id": "flash-next",
@@ -1030,7 +1030,13 @@
               "gpuOverheadMiB": 5120,
               "mtpMiB": 1024,
               "context": 32768,
-              "kvBytesPerToken": 13728
+              "kvBytesPerToken": 13728,
+              "floorGb": {
+                "Q2_0": 23,
+                "IQ2_XS": 24,
+                "IQ3_XXS": 29,
+                "IQ3_S": 34
+              }
             }
           },
           {
@@ -1076,7 +1082,12 @@
               "gpuOverheadMiB": 5120,
               "mtpMiB": 1024,
               "context": 32768,
-              "kvBytesPerToken": 13728
+              "kvBytesPerToken": 13728,
+              "floorGb": {
+                "IQ2_XS": 24,
+                "IQ3_XXS": 29,
+                "IQ3_S": 34
+              }
             }
           },
           {
@@ -1108,7 +1119,10 @@
               "gpuOverheadMiB": 5120,
               "mtpMiB": 1024,
               "context": 32768,
-              "kvBytesPerToken": 13728
+              "kvBytesPerToken": 13728,
+              "floorGb": {
+                "IQ1_M": 16
+              }
             }
           },
           {

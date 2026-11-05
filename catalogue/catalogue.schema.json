@@ -333,7 +333,8 @@
           "type": "object", "additionalProperties": false, "required": ["choices", "default"],
           "properties": {
             "choices": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" } },
-            "default": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" }
+            "default": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" },
+            "unnamed": { "description": "The choices sent as thinking on with no effort word, for a chat template that rejects the word.", "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_-]{1,40}$" } }
           }
         },
         "residentLaunch": { "$ref": "#/$defs/residentLaunch" },
@@ -406,6 +407,27 @@
         "kvBytesPerToken": {
           "type": "number",
           "exclusiveMinimum": 0
+        },
+        "floorGb": {
+          "description": "The least free RAM (GB) that still answers usefully, per quant (measured; until it is, a guess on the safe side). Below it the default walk takes no mode, she does not wake and the reason names it. A mode the person sets (models.brainMemory) is not held back by it. Absent: no floor beyond the lightest mode's own need.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "budget": {
+          "description": "false: this family's Strata cannot keep a RAM budget (--resident-budget-gib), so its ladder skips that mode.",
+          "const": false
+        },
+        "autoModes": {
+          "description": "The modes auto (no card picked by hand, no models.brainMemory) may wake her in: those measured as fast as the brain it falls back to. Absent: the engine's list (full speed and low-RAM). A card picked by hand, or a mode the person set, may use any mode the ladder walks to.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["ram", "resident", "budget", "mapped"]
+          }
         }
       }
     },
