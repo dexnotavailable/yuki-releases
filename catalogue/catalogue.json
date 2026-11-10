@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-11-05T06:43:40.056Z",
+  "updatedAt": "2026-11-10T18:55:38.162Z",
   "models": [
     {
       "id": "flash-next",
@@ -885,6 +885,56 @@
           "vendors": ["nvidia"]
         }
       }
+    }
+  ],
+  "modelsNext": [
+    {
+      "id": "z-image-turbo-fp4",
+      "title": "Z-Image Turbo (fp4)",
+      "kind": "image",
+      "roles": [
+        "image"
+      ],
+      "registryId": "z-image-turbo-fp4",
+      "runtime": "comfy",
+      "minTier": "D",
+      "vramGb": 6,
+      "vramMinGb": 5,
+      "ramGb": 6,
+      "licence": {
+        "id": "apache-2.0",
+        "name": "Apache 2.0",
+        "url": "https://github.com/Tongyi-MAI/Z-Image/blob/main/LICENSE",
+        "commercial": "yes",
+        "summary": "Free to use, change and share, commercially too, keeping the licence and notices."
+      },
+      "files": [
+        {
+          "repo": "Comfy-Org/Z-Image-Turbo",
+          "file": "split_files/diffusion_models/z_image_turbo_nvfp4.safetensors",
+          "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+          "sha256": "a553c889dbcb910de4c98293237573219a37007c1074a3f04576646a088bd5c8",
+          "size": 4509509600,
+          "dest": "Z-Image-Turbo/diffusion_models/z_image_turbo_nvfp4.safetensors"
+        },
+        {
+          "repo": "Comfy-Org/Z-Image-Turbo",
+          "file": "split_files/text_encoders/qwen_3_4b_fp4_mixed.safetensors",
+          "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+          "sha256": "7ca32dcf07dfe7692945d80fff86e3a74cb83c6206b9b223ac6836b939bb85d6",
+          "size": 3479416193,
+          "dest": "Qwen3-4B/text_encoders/qwen_3_4b_fp4_mixed.safetensors"
+        },
+        {
+          "repo": "Comfy-Org/Z-Image-Turbo",
+          "file": "split_files/vae/ae.safetensors",
+          "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+          "sha256": "afc8e28272cd15db3919bacdb6918ce9c1ed22e96cb12c4d5ed0fba823529e38",
+          "size": 335304388,
+          "dest": "Z-Image-Turbo/vae/ae.safetensors"
+        }
+      ],
+      "notes": "Photoreal pictures on a 6 GB graphics card: people, products and places."
     }
   ],
   "runtimesNext": [
