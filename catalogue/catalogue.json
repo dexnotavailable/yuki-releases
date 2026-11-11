@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T18:55:38.162Z",
+  "updatedAt": "2026-11-11T03:27:20.135Z",
   "models": [
     {
       "id": "flash-next",
@@ -1332,6 +1332,156 @@
           }
         ]
       }
+    }
+  ],
+  "additions": [
+    {
+      "needs": "cpu",
+      "runtimes": [
+        {
+          "id": "llama.cpp-cpu",
+          "title": "llama.cpp server (processor)",
+          "runtime": "llama.cpp",
+          "version": "b11538",
+          "backend": "cpu",
+          "minTier": "D",
+          "archives": [
+            {
+              "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11538/llama-b11538-bin-win-cpu-x64.zip",
+              "sha256": "8d27ba71dfb5c2f0733a048dfe3eea3edc0e31d7b831a25d3610c3db81dc0bec",
+              "size": 19513109
+            }
+          ],
+          "check": "llama-server.exe",
+          "diskGb": 0.1,
+          "licence": {
+            "id": "mit",
+            "name": "MIT",
+            "url": "https://github.com/ggml-org/llama.cpp/blob/master/LICENSE",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the copyright notice. The OpenMP library that comes with it is the LLVM project's, under Apache 2.0 with LLVM exceptions."
+          },
+          "notes": "Runs a small brain on your processor, for a PC with no NVIDIA graphics card. Slower than a graphics card. The same llama.cpp build YUKI is tested with, without the graphics part.",
+          "runs": {
+            "kinds": [
+              "llm"
+            ],
+            "loadDeadlineS": 420,
+            "families": [
+              {
+                "id": "gguf-cpu",
+                "title": "small brains on the processor",
+                "architectures": [
+                  "qwen35"
+                ],
+                "layouts": [
+                  "dense"
+                ],
+                "files": "the copies YUKI tested on a processor",
+                "fileMatch": "^(Huihui-NeoHorse-1-4B-abliterated-Q4_K|Huihui-Qwen3\\.5-9B-abliterated\\.i1-Q3_K_M)\\.gguf$",
+                "entriesOnly": true,
+                "prefer": 10
+              }
+            ]
+          }
+        }
+      ],
+      "models": [
+        {
+          "id": "huihui-neohorse-1-4b-q4k",
+          "title": "Huihui NeoHorse 1 4B abliterated (Q4_K)",
+          "kind": "llm",
+          "roles": [
+            "brain.small"
+          ],
+          "registryId": "huihui-neohorse-1-4b",
+          "runtime": "llama.cpp",
+          "runtimeId": "llama.cpp-cpu",
+          "architecture": "qwen35",
+          "minTier": "D",
+          "vramGb": 0,
+          "ramGb": 4.9,
+          "rank": 4,
+          "dense": {
+            "layers": 33,
+            "layerBytes": 2250995712,
+            "headBytes": 10240,
+            "embdBytes": 521472000,
+            "kvBytesPerToken": 17408,
+            "recurrentBytesPerSlot": 52690944,
+            "contextLength": 262144
+          },
+          "tags": [
+            "personal"
+          ],
+          "context": 32768,
+          "licence": {
+            "id": "apache-2.0",
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is huihui-ai's abliterated build of NeoHorse-1-4B by TokenRhythm, itself made from Qwen3.5 4B."
+          },
+          "files": [
+            {
+              "repo": "huihui-ai/Huihui-NeoHorse-1-4B-abliterated-GGUF",
+              "file": "Huihui-NeoHorse-1-4B-abliterated-Q4_K.gguf",
+              "revision": "fb32df77e9e1852d558d1013501e19666a3eb0bb",
+              "sha256": "0900451ccd4f0a65bf0e8d3f2c224eff02ae9c961cb064de8b87e8a2118af3c2",
+              "size": 2783446464,
+              "dest": "Huihui-NeoHorse-1-4B-abliterated/Huihui-NeoHorse-1-4B-abliterated-Q4_K.gguf"
+            }
+          ],
+          "notes": "A small brain for a PC with no NVIDIA graphics card and 8 GB of RAM or more: it thinks on the processor, in about 4 to 5 GB of RAM. Slower and simpler than the bigger brains, and it reads text only."
+        },
+        {
+          "id": "huihui-qwen3.5-9b-q3km",
+          "title": "Huihui Qwen3.5 9B abliterated (Q3_K_M)",
+          "kind": "llm",
+          "roles": [
+            "brain.small"
+          ],
+          "registryId": "huihui-qwen3.5-9b",
+          "runtime": "llama.cpp",
+          "runtimeId": "llama.cpp-cpu",
+          "architecture": "qwen35",
+          "minTier": "D",
+          "vramGb": 0,
+          "ramGb": 6.6,
+          "rank": 9,
+          "dense": {
+            "layers": 32,
+            "layerBytes": 3333801984,
+            "headBytes": 834371584,
+            "embdBytes": 437043200,
+            "kvBytesPerToken": 17408,
+            "recurrentBytesPerSlot": 52690944,
+            "contextLength": 262144
+          },
+          "tags": [
+            "personal"
+          ],
+          "context": 32768,
+          "licence": {
+            "id": "apache-2.0",
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is huihui-ai's abliterated build of Qwen3.5 9B, quantised by mradermacher."
+          },
+          "files": [
+            {
+              "repo": "mradermacher/Huihui-Qwen3.5-9B-abliterated-i1-GGUF",
+              "file": "Huihui-Qwen3.5-9B-abliterated.i1-Q3_K_M.gguf",
+              "revision": "4cc15cd6f643e668e18902550f80e2274a212473",
+              "sha256": "d9edcf0123256b19528a288a8e3c277f1fffe1a243710172d27d7a3286247a04",
+              "size": 4616185504,
+              "dest": "Huihui-Qwen3.5-9B-abliterated/Huihui-Qwen3.5-9B-abliterated.i1-Q3_K_M.gguf"
+            }
+          ],
+          "notes": "A brain for a PC with no NVIDIA graphics card and 16 GB of RAM: it thinks on the processor, in about 6 to 7 GB of RAM. Smarter than the 4B and slower, and it reads text only."
+        }
+      ]
     }
   ],
   "pipeline": {

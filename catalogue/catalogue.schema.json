@@ -17,6 +17,20 @@
     "runtimes": { "description": "Optional (apps from before it ignore it): the programs models run on, fetched on demand.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
     "modelsNext": { "description": "Optional: models only apps from 0.3 read (older apps read `models` and `previews` alone and never see these). Put a model here when older apps must not plan or install it: their first run plans from every model they read, and they cannot install one whose template they lack.", "type": "array", "items": { "$ref": "#/$defs/model" } },
     "runtimesNext": { "description": "Optional: runtimes only apps from 0.3 read (older apps read `runtimes` alone and never see these). One with the id of a `runtimes` entry stands in for it in those apps (Strata 0.2.7 for 0.1.43); the rest are added. Only an entry an app runs stands in: one whose setup step it does not run, or whose runs it cannot read, is left out, and the entry it would stand in for stays. Put a runtime here when older apps must not install it.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
+    "additions": {
+      "description": "Optional: blocks of models and runtimes that need something an app can do, by name (`needs`). An app reads a block only when it has that ability; every app before 0.3.0-beta.21 reads none of them (0.3 betas read `runtimesNext`, and beta.20 `modelsNext`, so those lists no longer keep an entry from them). `cpu`: a brain on the processor of a PC with no NVIDIA card (llama.cpp's build for the processor, and the brains tested on it). Put an entry here when the apps in the field would install or start it the wrong way.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["needs"],
+        "additionalProperties": false,
+        "properties": {
+          "needs": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$" },
+          "runtimes": { "type": "array", "items": { "$ref": "#/$defs/runtime" } },
+          "models": { "type": "array", "items": { "$ref": "#/$defs/model" } }
+        }
+      }
+    },
     "pipeline": {
       "description": "Optional pipeline rules. context remains the legacy/llama.cpp default; runtimeContext overrides it for a named runtime. Runtimes still own compatibility and their final launch plan.",
       "type": "object",
