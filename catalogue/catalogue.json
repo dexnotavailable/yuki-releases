@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-11-11T03:27:20.135Z",
+  "updatedAt": "2026-11-21T14:43:44.371Z",
   "models": [
     {
       "id": "flash-next",
@@ -1480,6 +1480,419 @@
             }
           ],
           "notes": "A brain for a PC with no NVIDIA graphics card and 16 GB of RAM: it thinks on the processor, in about 6 to 7 GB of RAM. Smarter than the 4B and slower, and it reads text only."
+        }
+      ]
+    },
+    {
+      "needs": "llama-b12530",
+      "runtimes": [
+        {
+          "id": "llama.cpp-cuda",
+          "title": "llama.cpp server (CUDA 12)",
+          "runtime": "llama.cpp",
+          "version": "b12530",
+          "backend": "cuda",
+          "minTier": "D",
+          "minDriver": "551.61",
+          "archives": [
+            {
+              "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12530/llama-b12530-bin-win-cuda-12.4-x64.zip",
+              "sha256": "3cad1060de4c81f79c990d62b2708b24755836b4699fdf105cf689ccfd5f179e",
+              "size": 364403969
+            },
+            {
+              "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12530/cudart-llama-bin-win-cuda-12.4-x64.zip",
+              "sha256": "8c79a9b226de4b3cacfd1f83d24f962d0773be79f1e7b75c6af4ded7e32ae1d6",
+              "size": 391443627
+            }
+          ],
+          "check": "llama-server.exe",
+          "diskGb": 2,
+          "licence": {
+            "id": "mit",
+            "name": "MIT",
+            "url": "https://github.com/ggml-org/llama.cpp/blob/master/LICENSE",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the copyright notice. The CUDA runtime files that come with it are NVIDIA's, under NVIDIA's own redistributable licence."
+          },
+          "notes": "Runs the brains on your NVIDIA graphics card, the small ones for 6 to 8 GB cards too. The build YUKI is tested with from 0.5; it needs an NVIDIA driver from 2024 or newer.",
+          "runs": {
+            "kinds": [
+              "llm"
+            ],
+            "floor": {
+              "vendors": [
+                "nvidia"
+              ]
+            },
+            "loadDeadlineS": 420,
+            "families": [
+              {
+                "id": "gguf",
+                "title": "GGUF models",
+                "architectures": [
+                  "llama",
+                  "llama4",
+                  "deci",
+                  "falcon",
+                  "grok",
+                  "gpt2",
+                  "gptj",
+                  "gptneox",
+                  "mpt",
+                  "baichuan",
+                  "starcoder",
+                  "refact",
+                  "bert",
+                  "modern-bert",
+                  "nomic-bert",
+                  "nomic-bert-moe",
+                  "neo-bert",
+                  "jina-bert-v2",
+                  "jina-bert-v3",
+                  "eurobert",
+                  "bloom",
+                  "stablelm",
+                  "qwen",
+                  "qwen2",
+                  "qwen2moe",
+                  "qwen2vl",
+                  "qwen3",
+                  "qwen3moe",
+                  "qwen3next",
+                  "qwen3vl",
+                  "qwen3vlmoe",
+                  "qwen35",
+                  "qwen35moe",
+                  "clef",
+                  "qwen4exp",
+                  "phi2",
+                  "phi3",
+                  "phimoe",
+                  "plamo",
+                  "plamo2",
+                  "plamo3",
+                  "codeshell",
+                  "orion",
+                  "internlm2",
+                  "minicpm",
+                  "minicpm3",
+                  "gemma",
+                  "gemma2",
+                  "gemma3",
+                  "gemma3n",
+                  "gemma4",
+                  "gemma4-assistant",
+                  "gemma-embedding",
+                  "gemma-embedding2",
+                  "starcoder2",
+                  "mamba",
+                  "mamba2",
+                  "maple",
+                  "jamba",
+                  "falcon-h1",
+                  "xverse",
+                  "command-r",
+                  "cohere2",
+                  "cohere2moe",
+                  "dbrx",
+                  "olmo",
+                  "olmo2",
+                  "olmoe",
+                  "muse-glimmer",
+                  "openelm",
+                  "arctic",
+                  "deepseek",
+                  "deepseek2",
+                  "deepseek2-ocr",
+                  "deepseek32",
+                  "deepseek4",
+                  "chatglm",
+                  "glm4",
+                  "glm4moe",
+                  "glm-dsa",
+                  "bitnet",
+                  "t5",
+                  "t5encoder",
+                  "jais",
+                  "jais2",
+                  "nemotron",
+                  "nemotron_h",
+                  "nemotron_h_moe",
+                  "exaone",
+                  "exaone4",
+                  "exaone-moe",
+                  "rwkv6",
+                  "rwkv6qwen2",
+                  "rwkv7",
+                  "arwkv7",
+                  "granite",
+                  "granitemoe",
+                  "granitehybrid",
+                  "graniteswitch",
+                  "granite_swa",
+                  "chameleon",
+                  "wavtokenizer-dec",
+                  "plm",
+                  "bailingmoe",
+                  "bailingmoe2",
+                  "bailingmoe3",
+                  "dots1",
+                  "dots3note",
+                  "arcee",
+                  "afmoe",
+                  "laguna",
+                  "ernie4_5",
+                  "ernie4_5-moe",
+                  "hunyuan-moe",
+                  "hunyuan-dense",
+                  "hunyuan_vl",
+                  "hy_v3",
+                  "hy_v4",
+                  "smollm3",
+                  "gpt-oss",
+                  "lfm2",
+                  "lfm2moe",
+                  "dream",
+                  "smallthinker",
+                  "llada",
+                  "llada-moe",
+                  "seed_oss",
+                  "grovemoe",
+                  "apertus",
+                  "minimax-01",
+                  "hrm_text",
+                  "minimax-m2",
+                  "minimax-m3",
+                  "cogvlm",
+                  "rnd1",
+                  "pangu-embedded",
+                  "mistral3",
+                  "eagle3",
+                  "dflash",
+                  "mistral4",
+                  "paddleocr",
+                  "mimo2",
+                  "step35",
+                  "spark2_5",
+                  "llama-embed",
+                  "maincoder",
+                  "kimi-linear",
+                  "kimi-k3",
+                  "glm5-next",
+                  "talkie",
+                  "mellum",
+                  "nanbeige",
+                  "qwen3tts",
+                  "pockettts",
+                  "k2-horizon",
+                  "lfm3"
+                ],
+                "layouts": [
+                  "dense",
+                  "moe"
+                ],
+                "prefer": 10
+              }
+            ]
+          }
+        },
+        {
+          "id": "llama.cpp-cpu",
+          "title": "llama.cpp server (processor)",
+          "runtime": "llama.cpp",
+          "version": "b12530",
+          "backend": "cpu",
+          "minTier": "D",
+          "archives": [
+            {
+              "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12530/llama-b12530-bin-win-cpu-x64.zip",
+              "sha256": "867042a9cc4bc0c1b60a6f7d8fe35d4e54286ad38ddd49165ffc873cf85534c7",
+              "size": 25670855
+            }
+          ],
+          "check": "llama-server.exe",
+          "diskGb": 0.1,
+          "licence": {
+            "id": "mit",
+            "name": "MIT",
+            "url": "https://github.com/ggml-org/llama.cpp/blob/master/LICENSE",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the copyright notice. The OpenMP library that comes with it is the LLVM project's, under Apache 2.0 with LLVM exceptions."
+          },
+          "notes": "Runs a small brain on your processor, for a PC with no NVIDIA graphics card. Slower than a graphics card. The same llama.cpp build YUKI is tested with from 0.5, without the graphics part.",
+          "runs": {
+            "kinds": [
+              "llm"
+            ],
+            "loadDeadlineS": 420,
+            "families": [
+              {
+                "id": "gguf-cpu",
+                "title": "small brains on the processor",
+                "architectures": [
+                  "qwen35",
+                  "gemma4",
+                  "lfm3"
+                ],
+                "layouts": [
+                  "dense"
+                ],
+                "files": "the copies YUKI tested on a processor",
+                "fileMatch": "^(Huihui-NeoHorse-1-4B-abliterated-Q4_K|Huihui-Qwen3\\.5-9B-abliterated\\.i1-Q3_K_M|NVIDIA-Nemotron-3\\.5-Bolt-E4B-Uncensored-AD-Q4_K_M/[^/]*-00001-of-00001|LFM3-1\\.7B-Uncensored-AD-Q4_K_M)\\.gguf$",
+                "entriesOnly": true,
+                "prefer": 10
+              }
+            ]
+          }
+        }
+      ],
+      "models": [
+        {
+          "id": "ornith-1.5-9b-q4km",
+          "title": "Ornith 1.5 9B uncensored (Q4_K_M)",
+          "kind": "llm",
+          "roles": [
+            "brain.small"
+          ],
+          "registryId": "ornith-1.5-9b",
+          "runtime": "llama.cpp",
+          "architecture": "qwen35",
+          "minTier": "D",
+          "vramGb": 5.3,
+          "ramGb": 1.6,
+          "rank": 11,
+          "small": true,
+          "shortPrompt": "processor",
+          "maxVramGb": 8,
+          "dense": {
+            "layers": 32,
+            "layerBytes": 4211640320,
+            "headBytes": 834371584,
+            "embdBytes": 572129280,
+            "kvBytesPerToken": 17408,
+            "recurrentBytesPerSlot": 52690944,
+            "contextLength": 262144
+          },
+          "tags": [
+            "personal"
+          ],
+          "context": 16384,
+          "licence": {
+            "id": "apache-2.0",
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, keeping the licence and notices. This is junafinity's uncensored build of Ornith 1.5 9B by Ornith AI, quantised by mradermacher."
+          },
+          "files": [
+            {
+              "repo": "mradermacher/Ornith-1.5-9B-uncensored-GGUF",
+              "file": "Ornith-1.5-9B-uncensored.Q4_K_M.gguf",
+              "revision": "6fd9d4f96fc8efe5032032a2635898f744903d01",
+              "sha256": "ee180b66bc2dcd49f41e0d3c991d2eaab3078d651d97595852d16ae6d9af3c9e",
+              "size": 5629109408,
+              "dest": "Ornith-1.5-9B-uncensored/Ornith-1.5-9B-uncensored.Q4_K_M.gguf"
+            }
+          ],
+          "notes": "A small, fast brain for an NVIDIA graphics card with 6 to 8 GB: all of it sits on the card, about 5.3 GB at 16k of context. On a 6 GB card that also drives your screen it does not fit whole, so YUKI offers it on 6 GB laptops whose screen runs on the built-in graphics. It reads text only."
+        },
+        {
+          "id": "nemotron-3.5-bolt-e4b-q4km",
+          "title": "NVIDIA Nemotron 3.5 Bolt E4B uncensored (Q4_K_M)",
+          "kind": "llm",
+          "roles": [
+            "brain.small"
+          ],
+          "registryId": "nemotron-3.5-bolt-e4b",
+          "runtime": "llama.cpp",
+          "runtimeId": "llama.cpp-cpu",
+          "architecture": "gemma4",
+          "minTier": "D",
+          "vramGb": 0,
+          "ramGb": 4,
+          "rank": 10,
+          "small": true,
+          "shortPrompt": "processor",
+          "dense": {
+            "layers": 42,
+            "layerBytes": 2942770496,
+            "headBytes": 55062528,
+            "embdBytes": 461373440,
+            "kvBytesPerToken": 91392,
+            "contextLength": 65536
+          },
+          "tags": [
+            "personal"
+          ],
+          "context": 32768,
+          "licence": {
+            "id": "openmdw-1.1",
+            "name": "OpenMDW 1.1",
+            "url": "https://github.com/OpenMDW/OpenMDW/blob/main/1.1/LICENSE.OpenMDW-1.1",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too, and what you make with it is yours. Keep the licence and its notices when you share it; suing over its patents or copyright ends your rights. This is NVIDIA's Nemotron 3.5 Bolt E4B (made from Google's Gemma 4 E4B, Apache 2.0), uncensored and quantised by AtomicChat."
+          },
+          "files": [
+            {
+              "repo": "AtomicChat/NVIDIA-Nemotron-3.5-Bolt-E4B-Uncensored-GGUF",
+              "file": "NVIDIA-Nemotron-3.5-Bolt-E4B-Uncensored-AD-Q4_K_M/NVIDIA-Nemotron-3.5-Bolt-E4B-Uncensored-AD-Q4_K_M-00001-of-00001.gguf",
+              "revision": "43409f2bb0e36573ed3990e85f9f47e81021c3c5",
+              "sha256": "6f31c73b2fcac7464045f99a42dad707fe999e3691ca205fe4875358d14f0779",
+              "size": 5060482880,
+              "dest": "NVIDIA-Nemotron-3.5-Bolt-E4B-Uncensored/NVIDIA-Nemotron-3.5-Bolt-E4B-Uncensored-AD-Q4_K_M-00001-of-00001.gguf"
+            }
+          ],
+          "notes": "A brain for a PC with no NVIDIA graphics card and 16 GB of RAM: it thinks on the processor, in about 4 GB of RAM. Faster than the 9B and as good at questions and tools, and it reads text only."
+        },
+        {
+          "id": "lfm3-1.7b-q4km",
+          "title": "LFM3 1.7B uncensored (Q4_K_M)",
+          "kind": "llm",
+          "roles": [
+            "brain.small"
+          ],
+          "registryId": "lfm3-1.7b",
+          "runtime": "llama.cpp",
+          "runtimeId": "llama.cpp-cpu",
+          "architecture": "lfm3",
+          "minTier": "D",
+          "vramGb": 0,
+          "ramGb": 1.6,
+          "rank": 5,
+          "small": true,
+          "shortPrompt": "always",
+          "dense": {
+            "layers": 24,
+            "layerBytes": 908911616,
+            "headBytes": 8448,
+            "embdBytes": 215040000,
+            "kvBytesPerToken": 11968,
+            "recurrentBytesPerSlot": 638976,
+            "contextLength": 262144
+          },
+          "tags": [
+            "personal"
+          ],
+          "context": 32768,
+          "licence": {
+            "id": "lfm-open-license-v1.0",
+            "name": "LFM Open License 1.0",
+            "url": "https://huggingface.co/LiquidAI/LFM3-1.7B/blob/main/LICENSE",
+            "commercial": "limited",
+            "summary": "Free to use, change and share. Commercial use is allowed for people and companies with under 10 million US dollars of yearly revenue; above that it needs Liquid AI's permission. Keep the licence and its notices. This is Liquid AI's LFM3 1.7B, uncensored and quantised by AtomicChat."
+          },
+          "files": [
+            {
+              "repo": "AtomicChat/LFM3-1.7B-Uncensored-GGUF",
+              "file": "LFM3-1.7B-Uncensored-AD-Q4_K_M.gguf",
+              "revision": "3ad712542eb9de349dbd28f2739b69c925cdec7d",
+              "sha256": "b22df65673b54ed326f18f74826d76f3b65dadc237ffd6306cd52be04544827d",
+              "size": 1132208000,
+              "dest": "LFM3-1.7B-Uncensored/LFM3-1.7B-Uncensored-AD-Q4_K_M.gguf"
+            }
+          ],
+          "notes": "A very small, quick brain for a PC with no NVIDIA graphics card and 8 GB of RAM: it thinks on the processor, in under 2 GB of RAM. It reads text only."
         }
       ]
     }
