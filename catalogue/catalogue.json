@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-11-22T21:25:54.560Z",
+  "updatedAt": "2026-11-23T17:22:07.971Z",
   "models": [
     {
       "id": "flash-next",
@@ -2105,6 +2105,43 @@
                 "prefer": 10
               }
             ]
+          }
+        }
+      ],
+      "models": []
+    },
+    {
+      "needs": "dex-browser",
+      "runtimes": [
+        {
+          "id": "dex-browser-chromium",
+          "title": "Dex Browser's engine (Chromium)",
+          "runtime": "chromium",
+          "version": "158.0.8127.37",
+          "minTier": "D",
+          "archives": [
+            {
+              "url": "https://github.com/Hibbiki/chromium-win64/releases/download/v158.0.8127.37-r1727472/chrome.7z",
+              "sha256": "cd62b2333fee38f42dd7d02980ec1902ba70608863d8d7354cd0cdc2f9efa7e4",
+              "size": 458391856
+            }
+          ],
+          "check": "chrome.exe",
+          "diskGb": 0.5,
+          "licence": {
+            "id": "bsd-3-clause",
+            "name": "BSD 3-Clause (Chromium)",
+            "url": "https://chromium.googlesource.com/chromium/src/+/HEAD/LICENSE",
+            "commercial": "yes",
+            "summary": "Chromium is free to use, change and share, commercially too, keeping its copyright notice. The parts inside it (video and audio codecs, fonts, libraries) come under their own open licences, listed on its own chrome://credits page."
+          },
+          "notes": "A plain Chromium that shows the pages in Dex Browser, so sign-ins hold the way they do in any browser (Google refuses them in an app's built-in pages). It keeps its own profile inside YUKI's folder. Without it Dex Browser uses the built-in pages.",
+          "upstream": {
+            "version": "159.0.8154.13",
+            "since": "2026-11-18"
+          },
+          "runs": {
+            "kinds": []
           }
         }
       ],
