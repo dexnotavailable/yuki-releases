@@ -1,7 +1,7 @@
 {
   "$schema": "./catalogue.schema.json",
   "schemaVersion": 1,
-  "updatedAt": "2026-11-23T17:22:07.971Z",
+  "updatedAt": "2026-11-25T12:22:54.347Z",
   "models": [
     {
       "id": "flash-next",
@@ -2140,6 +2140,39 @@
             "version": "159.0.8154.13",
             "since": "2026-11-18"
           },
+          "runs": {
+            "kinds": []
+          }
+        }
+      ],
+      "models": []
+    },
+    {
+      "needs": "page-reader",
+      "runtimes": [
+        {
+          "id": "firecrawl-local",
+          "title": "Full page reader (Firecrawl Local)",
+          "runtime": "firecrawl",
+          "version": "0.1.1",
+          "minTier": "D",
+          "archives": [
+            {
+              "url": "https://github.com/dexnotavailable/yuki-releases/releases/download/firecrawl-local-0.1.1/firecrawl-local.exe",
+              "sha256": "80ea0e58e6aea9d68270387f6c6ea6560e00bd473bfdd734c4660b6033885613",
+              "size": 25081344
+            }
+          ],
+          "check": "firecrawl-local.exe",
+          "diskGb": 0.03,
+          "licence": {
+            "id": "agpl-3.0",
+            "name": "GNU AGPL 3.0 (Firecrawl Local)",
+            "url": "https://www.gnu.org/licenses/agpl-3.0.html",
+            "commercial": "yes",
+            "summary": "Free to use, change and share, commercially too. YUKI runs it unchanged as a program of its own; none of it is built into YUKI. Anyone who shares a changed copy, or lets people use a changed copy over a network, has to offer them its source under the same licence. The source of this copy: firecrawl-local 0.1.1 on crates.io (https://static.crates.io/crates/firecrawl-local/firecrawl-local-0.1.1.crate), built unchanged with cargo install firecrawl-local --version 0.1.1 --locked."
+          },
+          "notes": "Reads the pages web_fetch cannot: sites that refuse a plain download, pages built by JavaScript (with Dex Browser's Chromium, when it is on this PC) and big tables. It runs on this PC only while it is reading, for public pages only, and its cloud is never used. Source: built unchanged from firecrawl-local 0.1.1 on crates.io, https://static.crates.io/crates/firecrawl-local/firecrawl-local-0.1.1.crate (SHA-256 5a0f837d8b3687aab45c6d4ad5c2dddf21849c883501e24145df4c32787be964), with: cargo install firecrawl-local --version 0.1.1 --locked (Rust 1.96.0, MSVC, Windows x64). Project: https://github.com/firecrawl/firecrawl",
           "runs": {
             "kinds": []
           }

@@ -18,7 +18,7 @@
     "modelsNext": { "description": "Optional: models only apps from 0.3 read (older apps read `models` and `previews` alone and never see these). Put a model here when older apps must not plan or install it: their first run plans from every model they read, and they cannot install one whose template they lack.", "type": "array", "items": { "$ref": "#/$defs/model" } },
     "runtimesNext": { "description": "Optional: runtimes only apps from 0.3 read (older apps read `runtimes` alone and never see these). One with the id of a `runtimes` entry stands in for it in those apps (Strata 0.2.7 for 0.1.43); the rest are added. Only an entry an app runs stands in: one whose setup step it does not run, or whose runs it cannot read, is left out, and the entry it would stand in for stays. Put a runtime here when older apps must not install it.", "type": "array", "items": { "$ref": "#/$defs/runtime" } },
     "additions": {
-      "description": "Optional: blocks of models and runtimes that need something an app can do, by name (`needs`). An app reads a block only when it has that ability; every app before 0.3.0-beta.21 reads none of them (0.3 betas read `runtimesNext`, and beta.20 `modelsNext`, so those lists no longer keep an entry from them). `cpu`: a brain on the processor of a PC with no NVIDIA card (llama.cpp's build for the processor, and the brains tested on it). `llama-b12530` (apps from 0.5 with M17): llama.cpp b12530 and the small-PC brains tested on it (LFM3 needs b11960 or later); apps without it keep b11538. `vulkan` (apps with the 11-23 Vulkan selection): llama.cpp b12530's Vulkan build, which runs the catalogue's own brains on a discrete AMD or Intel card that meets its floor; an app without it keeps the processor's build on such a PC. A runtime in a block with the id of one listed before it (in `runtimes`, `runtimesNext` or an earlier block) stands in for that one in the apps that read the block, as `runtimesNext` does; the rest are added. Put an entry here when the apps in the field would install or start it the wrong way.",
+      "description": "Optional: blocks of models and runtimes that need something an app can do, by name (`needs`). An app reads a block only when it has that ability; every app before 0.3.0-beta.21 reads none of them (0.3 betas read `runtimesNext`, and beta.20 `modelsNext`, so those lists no longer keep an entry from them). `cpu`: a brain on the processor of a PC with no NVIDIA card (llama.cpp's build for the processor, and the brains tested on it). `llama-b12530` (apps from 0.5 with M17): llama.cpp b12530 and the small-PC brains tested on it (LFM3 needs b11960 or later); apps without it keep b11538. `vulkan` (apps with the 11-23 Vulkan selection): llama.cpp b12530's Vulkan build, which runs the catalogue's own brains on a discrete AMD or Intel card that meets its floor; an app without it keeps the processor's build on such a PC. `dex-browser`: Dex Browser's engine (runtime chromium). `page-reader` (apps from the 11-25 page reader): Firecrawl Local, web_fetch's full page reader (runtime firecrawl, one program file: see `program`). A runtime in a block with the id of one listed before it (in `runtimes`, `runtimesNext` or an earlier block) stands in for that one in the apps that read the block, as `runtimesNext` does; the rest are added. Put an entry here when the apps in the field would install or start it the wrong way.",
       "type": "array",
       "items": {
         "type": "object",
@@ -215,6 +215,17 @@
         "licence": { "$ref": "#/$defs/licence" }
       }
     },
+    "program": {
+      "description": "A runtime that is ONE program file (Firecrawl Local): a GitHub release asset that is the program itself, copied in as it is. Its file name must be the runtime's `check`; any other .exe (an installer) is refused. Read by apps with the `page-reader` ability, so it goes in that block.",
+      "type": "object",
+      "required": ["url", "sha256", "size"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string", "pattern": "^https://github\\.com/[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9_.-]+/releases/download/[^/?#]+/[^/?#]+\\.exe$" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size": { "type": "integer", "minimum": 1 }
+      }
+    },
     "archive": {
       "type": "object",
       "required": ["url", "sha256", "size"],
@@ -233,13 +244,13 @@
       "properties": {
         "id": { "$ref": "#/$defs/id" },
         "title": { "type": "string", "minLength": 1 },
-        "runtime": { "description": "Which slot it fills. uv builds the Python environments ComfyUI and Strata run in.", "enum": ["llama.cpp", "comfy", "strata", "uv", "qwen3-tts", "chromium"] },
+        "runtime": { "description": "Which slot it fills. uv builds the Python environments ComfyUI and Strata run in. chromium is Dex Browser's engine, firecrawl the full page reader web_fetch falls back to (both run no model).", "enum": ["llama.cpp", "comfy", "strata", "uv", "qwen3-tts", "chromium", "firecrawl"] },
         "version": { "type": "string", "pattern": "^[0-9A-Za-z][0-9A-Za-z._+-]{0,39}$" },
         "backend": { "enum": ["cuda", "vulkan", "cpu"] },
         "minTier": { "$ref": "#/$defs/tier" },
         "minDriver": { "description": "Oldest NVIDIA driver it runs on.", "type": "string", "pattern": "^\\d+(\\.\\d+){0,3}$" },
         "needs": { "description": "Runtime ids it is set up with.", "type": "array", "items": { "$ref": "#/$defs/id" } },
-        "archives": { "description": "Unpacked in order. Empty only when a setup step does the whole install.", "type": "array", "items": { "$ref": "#/$defs/archive" } },
+        "archives": { "description": "Unpacked in order. Empty only when a setup step does the whole install. A runtime that is one program has that program instead (`program`, apps with `page-reader`).", "type": "array", "items": { "anyOf": [{ "$ref": "#/$defs/archive" }, { "$ref": "#/$defs/program" }] } },
         "check": { "description": "A file in the runtime's folder that shows it is installed.", "$ref": "#/$defs/relativePath" },
         "setup": { "description": "What YUKI runs after unpacking: comfy = Python environment, PyTorch and ComfyUI's packages; strata = Strata 0.1's own setup.py; qwen3-tts = its Python environment; strata-terminal = Strata 0.2's Terminal build, set up by its own installer (apps with its adapter only). An app that does not run a step leaves the entry out: a runtime that needs a newer adapter names a new step.", "enum": ["comfy", "strata", "qwen3-tts", "strata-terminal"] },
         "diskGb": { "description": "Disk it takes once set up (archives unpacked plus what setup adds).", "type": "number", "minimum": 0 },
